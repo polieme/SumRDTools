@@ -143,57 +143,57 @@ namespace SumRDTools
 
                     //二、研究开发费用情况
                     // 研究开发费用合计（千元）
-                    companyRDData.RDExpensesTotal = getFloat(getCellValueByCellType(sheet, 12, 3));
+                    companyRDData.RDExpensesTotal = getDecimal(getCellValueByCellType(sheet, 12, 3));
                     //1.人员人工费用（千元）
-                    companyRDData.RDExpensesPersonnelLabor = getFloat(getCellValueByCellType(sheet, 13, 3));
+                    companyRDData.RDExpensesPersonnelLabor = getDecimal(getCellValueByCellType(sheet, 13, 3));
                     //2.直接投入费用（千元）
-                    companyRDData.RDExpensesDirectInput = getFloat(getCellValueByCellType(sheet, 14, 3));
+                    companyRDData.RDExpensesDirectInput = getDecimal(getCellValueByCellType(sheet, 14, 3));
                     //3.折旧费用与长期待摊费用（千元）
-                    companyRDData.RDExpensesDepreciationAndLongTerm = getFloat(getCellValueByCellType(sheet, 15, 3));
+                    companyRDData.RDExpensesDepreciationAndLongTerm = getDecimal(getCellValueByCellType(sheet, 15, 3));
                     //4.无形资产摊销费用（千元）
-                    companyRDData.RDExpensesIntangibleAssets = getFloat(getCellValueByCellType(sheet, 16, 3));
+                    companyRDData.RDExpensesIntangibleAssets = getDecimal(getCellValueByCellType(sheet, 16, 3));
                     //5.设计费用（千元）
-                    companyRDData.RDExpensesDesign = getFloat(getCellValueByCellType(sheet, 17, 3));
+                    companyRDData.RDExpensesDesign = getDecimal(getCellValueByCellType(sheet, 17, 3));
                     //6.装备调试费用与试验费用（千元）
-                    companyRDData.RDExpensesEquipmentDebug = getFloat(getCellValueByCellType(sheet, 18, 3));
+                    companyRDData.RDExpensesEquipmentDebug = getDecimal(getCellValueByCellType(sheet, 18, 3));
                     //7.委托外部研究开发费用（千元）
-                    companyRDData.RDExpensesEntrustOutsourcedRD = getFloat(getCellValueByCellType(sheet, 19, 3));
+                    companyRDData.RDExpensesEntrustOutsourcedRD = getDecimal(getCellValueByCellType(sheet, 19, 3));
                     //①委托境内研究机构（千元）
-                    companyRDData.RDExpensesEntrustDomesticResearch = getFloat(getCellValueByCellType(sheet, 20, 3));
+                    companyRDData.RDExpensesEntrustDomesticResearch = getDecimal(getCellValueByCellType(sheet, 20, 3));
                     //②委托境内高等学校（千元）
-                    companyRDData.RDExpensesEntrustDomesticCollege = getFloat(getCellValueByCellType(sheet, 21, 3));
+                    companyRDData.RDExpensesEntrustDomesticCollege = getDecimal(getCellValueByCellType(sheet, 21, 3));
                     //③委托境内企业（千元）
-                    companyRDData.RDExpensesEntrustDomesticCompany = getFloat(getCellValueByCellType(sheet, 22, 3));
+                    companyRDData.RDExpensesEntrustDomesticCompany = getDecimal(getCellValueByCellType(sheet, 22, 3));
                     //④委托境外机构（千元）
-                    companyRDData.RDExpensesEntrustOverseasInstitutions = getFloat(getCellValueByCellType(sheet, 23, 3));
+                    companyRDData.RDExpensesEntrustOverseasInstitutions = getDecimal(getCellValueByCellType(sheet, 23, 3));
                     //8.其他费用（千元）
-                    companyRDData.RDExpensesOthers = getFloat(getCellValueByCellType(sheet, 24, 3));
+                    companyRDData.RDExpensesOthers = getDecimal(getCellValueByCellType(sheet, 24, 3));
 
                     //三、研究开发资产情况
                     //当年形成用于研究开发的固定资产（千元）
-                    companyRDData.RDAssetsYear = getFloat(getCellValueByCellType(sheet, 26, 3));
+                    companyRDData.RDAssetsYear = getDecimal(getCellValueByCellType(sheet, 26, 3));
                     //其中：仪器和设备（千元）
-                    companyRDData.RDAssetsYearEquipment = getFloat(getCellValueByCellType(sheet, 27, 3));
+                    companyRDData.RDAssetsYearEquipment = getDecimal(getCellValueByCellType(sheet, 27, 3));
 
                     //四、研究开发支出资金来源
                     //1.来自企业自筹(千元)
-                    companyRDData.RDSpendSourceOfCompany = getFloat(getCellValueByCellType(sheet, 29, 3));
+                    companyRDData.RDSpendSourceOfCompany = getDecimal(getCellValueByCellType(sheet, 29, 3));
                     //2.来自政府部门（千元）
-                    companyRDData.RDSpendSourceOfGovernment = getFloat(getCellValueByCellType(sheet, 30, 3));
+                    companyRDData.RDSpendSourceOfGovernment = getDecimal(getCellValueByCellType(sheet, 30, 3));
                     //3.来自银行贷款（千元）
-                    companyRDData.RDSpendSourceOfBank = getFloat(getCellValueByCellType(sheet, 31, 3));
+                    companyRDData.RDSpendSourceOfBank = getDecimal(getCellValueByCellType(sheet, 31, 3));
                     //4.来自风险投资（千元）
-                    companyRDData.RDSpendSourceOfRiskCapital = getFloat(getCellValueByCellType(sheet, 32, 3));
+                    companyRDData.RDSpendSourceOfRiskCapital = getDecimal(getCellValueByCellType(sheet, 32, 3));
                     //5.来自其他渠道（千元）
-                    companyRDData.RDSpendSourceOfOthers = getFloat(getCellValueByCellType(sheet, 33, 3));
+                    companyRDData.RDSpendSourceOfOthers = getDecimal(getCellValueByCellType(sheet, 33, 3));
 
                     //五、相关政策落实情况
                     //申报加计扣除减免税的研究开发支出(千元)
-                    companyRDData.PolicyImplementDeclareAddtionRD = getFloat(getCellValueByCellType(sheet, 35, 3));
+                    companyRDData.PolicyImplementDeclareAddtionRD = getDecimal(getCellValueByCellType(sheet, 35, 3));
                     //加计扣除减免税金额(千元)
-                    companyRDData.PolicyImplementAddtionRDTaxFree = getFloat(getCellValueByCellType(sheet, 36, 3));
+                    companyRDData.PolicyImplementAddtionRDTaxFree = getDecimal(getCellValueByCellType(sheet, 36, 3));
                     //高新技术企业减免税金额(千元)
-                    companyRDData.PolicyImplementHighTechRDTaxFree = getFloat(getCellValueByCellType(sheet, 37, 3));
+                    companyRDData.PolicyImplementHighTechRDTaxFree = getDecimal(getCellValueByCellType(sheet, 37, 3));
 
                     //六、企业办研究开发机构（境内）情况
                     //期末机构数(个)
@@ -205,9 +205,9 @@ namespace SumRDTools
                     //其中：硕士毕业（人）
                     companyRDData.CompanyRunOrgRDMaster = getInt(getCellValueByCellType(sheet, 8, 10));
                     //机构研究开发费用（千元）
-                    companyRDData.CompanyRunOrgRDExpenses = getFloat(getCellValueByCellType(sheet, 9, 10));
+                    companyRDData.CompanyRunOrgRDExpenses = getDecimal(getCellValueByCellType(sheet, 9, 10));
                     //期末仪器和设备原价（千元）
-                    companyRDData.CompanyRunOrgEquipmentValueEndOfPeriod = getFloat(getCellValueByCellType(sheet, 10, 10));
+                    companyRDData.CompanyRunOrgEquipmentValueEndOfPeriod = getDecimal(getCellValueByCellType(sheet, 10, 10));
 
                     //七、研究开发产出及相关情况
                     //(一) 专利情况
@@ -222,12 +222,12 @@ namespace SumRDTools
                     //专利所有权转让及许可数（件）
                     companyRDData.PatentApplyOfAssignment = getInt(getCellValueByCellType(sheet, 17, 10));
                     //专利所有权转让及许可收入（千元）
-                    companyRDData.PatentApplyOfAssignmentIncome = getFloat(getCellValueByCellType(sheet, 18, 10));
+                    companyRDData.PatentApplyOfAssignmentIncome = getDecimal(getCellValueByCellType(sheet, 18, 10));
                     //(二) 新产品情况
                     //*新产品销售收入(千元)
-                    companyRDData.NewProductSaleRevenue = getFloat(getCellValueByCellType(sheet, 20, 10));
+                    companyRDData.NewProductSaleRevenue = getDecimal(getCellValueByCellType(sheet, 20, 10));
                     //*其中：出口(千元)
-                    companyRDData.NewProductSaleOfOutlet = getFloat(getCellValueByCellType(sheet, 21, 10));
+                    companyRDData.NewProductSaleOfOutlet = getDecimal(getCellValueByCellType(sheet, 21, 10));
                     //(三)其他情况
                     //*期末拥有注册商标(件)
                     companyRDData.TrademarkOfPeriod = getInt(getCellValueByCellType(sheet, 23, 10));
@@ -239,13 +239,13 @@ namespace SumRDTools
                     //八、其他相关情况
                     //(一)技术改造和技术获取情况
                     //技术改造经费支出（千元）
-                    companyRDData.TechTransformExpenses = getFloat(getCellValueByCellType(sheet, 28, 10));
+                    companyRDData.TechTransformExpenses = getDecimal(getCellValueByCellType(sheet, 28, 10));
                     //购买境内技术经费支出（千元）
-                    companyRDData.BuyDomesticTechExpenses = getFloat(getCellValueByCellType(sheet, 29, 10));
+                    companyRDData.BuyDomesticTechExpenses = getDecimal(getCellValueByCellType(sheet, 29, 10));
                     //引进境外技术经费支出（千元）
-                    companyRDData.ImpOverseasTechExpenses = getFloat(getCellValueByCellType(sheet, 30, 10));
+                    companyRDData.ImpOverseasTechExpenses = getDecimal(getCellValueByCellType(sheet, 30, 10));
                     //引进境外技术的消化吸收经费支出（千元）
-                    companyRDData.ImpOverseasTechDigestionExpenses = getFloat(getCellValueByCellType(sheet, 31, 10));
+                    companyRDData.ImpOverseasTechDigestionExpenses = getDecimal(getCellValueByCellType(sheet, 31, 10));
                     // (二)企业办研究开发机构（境外）情况
                     //期末企业在境外设立的研究开发机构数(个)
                     companyRDData.OverseasOrgCount = getInt(getCellValueByCellType(sheet, 33, 10));
@@ -288,7 +288,7 @@ namespace SumRDTools
                         errorText += "研究开发人员合计≥机构研究开发人员≥其中：博士毕业+其中：硕士毕业；";
                     }
                     //7=8+9+10+11+12+13+14+19≥26（研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用）
-                    if (new Decimal(companyRDData.RDExpensesTotal) != (new Decimal(companyRDData.RDExpensesPersonnelLabor) + new Decimal(companyRDData.RDExpensesDirectInput) + new Decimal(companyRDData.RDExpensesDepreciationAndLongTerm) + new Decimal(companyRDData.RDExpensesIntangibleAssets) + new Decimal(companyRDData.RDExpensesDesign) + new Decimal(companyRDData.RDExpensesEquipmentDebug) + new Decimal(companyRDData.RDExpensesEntrustOutsourcedRD) + new Decimal(companyRDData.RDExpensesOthers)) || companyRDData.RDExpensesTotal < companyRDData.CompanyRunOrgRDExpenses)
+                    if (companyRDData.RDExpensesTotal != (companyRDData.RDExpensesPersonnelLabor +companyRDData.RDExpensesDirectInput + companyRDData.RDExpensesDepreciationAndLongTerm + companyRDData.RDExpensesIntangibleAssets + companyRDData.RDExpensesDesign + companyRDData.RDExpensesEquipmentDebug + companyRDData.RDExpensesEntrustOutsourcedRD + companyRDData.RDExpensesOthers) || companyRDData.RDExpensesTotal < companyRDData.CompanyRunOrgRDExpenses)
                     {
                         isSummary = false;
                         errorText += "研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用；";
@@ -305,7 +305,7 @@ namespace SumRDTools
                         errorText += "若人员人工费用>0，则研究开发人员合计>0；";
                     }
                     //14=15+16+17+18（委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构）
-                    if (new Decimal(companyRDData.RDExpensesEntrustOutsourcedRD) != (new Decimal(companyRDData.RDExpensesEntrustDomesticResearch) + new Decimal(companyRDData.RDExpensesEntrustDomesticCollege) + new Decimal(companyRDData.RDExpensesEntrustDomesticCompany) + new Decimal(companyRDData.RDExpensesEntrustOverseasInstitutions))) {
+                    if (companyRDData.RDExpensesEntrustOutsourcedRD != (companyRDData.RDExpensesEntrustDomesticResearch + companyRDData.RDExpensesEntrustDomesticCollege + companyRDData.RDExpensesEntrustDomesticCompany + companyRDData.RDExpensesEntrustOverseasInstitutions)) {
                         isSummary = false;
                         errorText += "委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构；";
                     }
@@ -338,6 +338,12 @@ namespace SumRDTools
                     {
                         isSummary = false;
                         errorText += "新产品销售收入≥其中：出口；";
+                    }
+
+                    //研究开发费用合计 = 四、研究开发支出资金来源中各项的和
+                    if (companyRDData.RDExpensesTotal != (companyRDData.RDSpendSourceOfCompany + companyRDData.RDSpendSourceOfGovernment + companyRDData.RDSpendSourceOfBank + companyRDData.RDSpendSourceOfRiskCapital + companyRDData.RDSpendSourceOfOthers)) {
+                        isSummary = false;
+                        errorText += "研究开发费用合计 = 四、研究开发支出资金来源中各项的和；";
                     }
 
                     //如果逻辑校验没有问题
@@ -376,60 +382,60 @@ namespace SumRDTools
 
                 //二、研究开发费用情况
                 // 研究开发费用合计（千元）
-                summaryCompanyRDData.RDExpensesTotal = (float)(new Decimal(summaryCompanyRDData.RDExpensesTotal) + new Decimal(companyRDData.RDExpensesTotal));
+                summaryCompanyRDData.RDExpensesTotal = summaryCompanyRDData.RDExpensesTotal + companyRDData.RDExpensesTotal;
                 //1.人员人工费用（千元）
-                summaryCompanyRDData.RDExpensesPersonnelLabor = (float)(new Decimal(summaryCompanyRDData.RDExpensesPersonnelLabor) + new Decimal(companyRDData.RDExpensesPersonnelLabor));
+                summaryCompanyRDData.RDExpensesPersonnelLabor = summaryCompanyRDData.RDExpensesPersonnelLabor + companyRDData.RDExpensesPersonnelLabor;
                 //2.直接投入费用（千元）
-                summaryCompanyRDData.RDExpensesDirectInput = (float)(new Decimal(summaryCompanyRDData.RDExpensesDirectInput) + new Decimal(companyRDData.RDExpensesDirectInput));
+                summaryCompanyRDData.RDExpensesDirectInput = summaryCompanyRDData.RDExpensesDirectInput + companyRDData.RDExpensesDirectInput;
                 //3.折旧费用与长期待摊费用（千元）
-                summaryCompanyRDData.RDExpensesDepreciationAndLongTerm = (float)(new Decimal(summaryCompanyRDData.RDExpensesDepreciationAndLongTerm) + new Decimal(companyRDData.RDExpensesDepreciationAndLongTerm));
+                summaryCompanyRDData.RDExpensesDepreciationAndLongTerm = summaryCompanyRDData.RDExpensesDepreciationAndLongTerm + companyRDData.RDExpensesDepreciationAndLongTerm;
                 //4.无形资产摊销费用（千元）
-                summaryCompanyRDData.RDExpensesIntangibleAssets = (float)(new Decimal(summaryCompanyRDData.RDExpensesIntangibleAssets) + new Decimal(companyRDData.RDExpensesIntangibleAssets));
+                summaryCompanyRDData.RDExpensesIntangibleAssets = summaryCompanyRDData.RDExpensesIntangibleAssets+companyRDData.RDExpensesIntangibleAssets;
 
                 //5.设计费用（千元）
-                summaryCompanyRDData.RDExpensesDesign = (float)(new Decimal(summaryCompanyRDData.RDExpensesDesign) + new Decimal(companyRDData.RDExpensesDesign));
+                summaryCompanyRDData.RDExpensesDesign = summaryCompanyRDData.RDExpensesDesign+companyRDData.RDExpensesDesign;
 
                 //6.装备调试费用与试验费用（千元）
-                summaryCompanyRDData.RDExpensesEquipmentDebug = (float)(new Decimal(summaryCompanyRDData.RDExpensesEquipmentDebug) + new Decimal(companyRDData.RDExpensesEquipmentDebug));
+                summaryCompanyRDData.RDExpensesEquipmentDebug = summaryCompanyRDData.RDExpensesEquipmentDebug+companyRDData.RDExpensesEquipmentDebug;
                 //7.委托外部研究开发费用（千元）
-                summaryCompanyRDData.RDExpensesEntrustOutsourcedRD = (float)(new Decimal(summaryCompanyRDData.RDExpensesEntrustOutsourcedRD) + new Decimal(companyRDData.RDExpensesEntrustOutsourcedRD));
+                summaryCompanyRDData.RDExpensesEntrustOutsourcedRD = summaryCompanyRDData.RDExpensesEntrustOutsourcedRD+companyRDData.RDExpensesEntrustOutsourcedRD;
                 //①委托境内研究机构（千元）
-                summaryCompanyRDData.RDExpensesEntrustDomesticResearch = (float)(new Decimal(summaryCompanyRDData.RDExpensesEntrustDomesticResearch) + new Decimal(companyRDData.RDExpensesEntrustDomesticResearch));
+                summaryCompanyRDData.RDExpensesEntrustDomesticResearch = summaryCompanyRDData.RDExpensesEntrustDomesticResearch+companyRDData.RDExpensesEntrustDomesticResearch;
                 //②委托境内高等学校（千元）
-                summaryCompanyRDData.RDExpensesEntrustDomesticCollege = (float)(new Decimal(summaryCompanyRDData.RDExpensesEntrustDomesticCollege) + new Decimal(companyRDData.RDExpensesEntrustDomesticCollege));
+                summaryCompanyRDData.RDExpensesEntrustDomesticCollege = summaryCompanyRDData.RDExpensesEntrustDomesticCollege+companyRDData.RDExpensesEntrustDomesticCollege;
                 //③委托境内企业（千元）
-                summaryCompanyRDData.RDExpensesEntrustDomesticCompany = (float)(new Decimal(summaryCompanyRDData.RDExpensesEntrustDomesticCompany) + new Decimal(companyRDData.RDExpensesEntrustDomesticCompany));
+                summaryCompanyRDData.RDExpensesEntrustDomesticCompany = summaryCompanyRDData.RDExpensesEntrustDomesticCompany+companyRDData.RDExpensesEntrustDomesticCompany;
                 //④委托境外机构（千元）
-                summaryCompanyRDData.RDExpensesEntrustOverseasInstitutions = (float)(new Decimal(summaryCompanyRDData.RDExpensesEntrustOverseasInstitutions) + new Decimal(companyRDData.RDExpensesEntrustOverseasInstitutions));
+                summaryCompanyRDData.RDExpensesEntrustOverseasInstitutions = summaryCompanyRDData.RDExpensesEntrustOverseasInstitutions+companyRDData.RDExpensesEntrustOverseasInstitutions;
                 //8.其他费用（千元）
-                summaryCompanyRDData.RDExpensesOthers = (float)(new Decimal(summaryCompanyRDData.RDExpensesOthers) + new Decimal(companyRDData.RDExpensesOthers));
+                summaryCompanyRDData.RDExpensesOthers = summaryCompanyRDData.RDExpensesOthers+companyRDData.RDExpensesOthers;
 
                 //三、研究开发资产情况
                 //当年形成用于研究开发的固定资产（千元）
-                summaryCompanyRDData.RDAssetsYear = (float)(new Decimal(summaryCompanyRDData.RDAssetsYear) + new Decimal(companyRDData.RDAssetsYear));
+                summaryCompanyRDData.RDAssetsYear = summaryCompanyRDData.RDAssetsYear+companyRDData.RDAssetsYear;
                 //其中：仪器和设备（千元）
-                summaryCompanyRDData.RDAssetsYearEquipment = (float)(new Decimal(summaryCompanyRDData.RDAssetsYearEquipment) + new Decimal(companyRDData.RDAssetsYearEquipment));
+                summaryCompanyRDData.RDAssetsYearEquipment = summaryCompanyRDData.RDAssetsYearEquipment+companyRDData.RDAssetsYearEquipment;
 
 
                 //四、研究开发支出资金来源
                 //1.来自企业自筹(千元)
-                summaryCompanyRDData.RDSpendSourceOfCompany = (float)(new Decimal(summaryCompanyRDData.RDSpendSourceOfCompany) + new Decimal(companyRDData.RDSpendSourceOfCompany));
+                summaryCompanyRDData.RDSpendSourceOfCompany = summaryCompanyRDData.RDSpendSourceOfCompany+companyRDData.RDSpendSourceOfCompany;
                 //2.来自政府部门（千元）
-                summaryCompanyRDData.RDSpendSourceOfGovernment = (float)(new Decimal(summaryCompanyRDData.RDSpendSourceOfGovernment) + new Decimal(companyRDData.RDSpendSourceOfGovernment));
+                summaryCompanyRDData.RDSpendSourceOfGovernment = summaryCompanyRDData.RDSpendSourceOfGovernment+companyRDData.RDSpendSourceOfGovernment;
                 //3.来自银行贷款（千元）
-                summaryCompanyRDData.RDSpendSourceOfBank = (float)(new Decimal(summaryCompanyRDData.RDSpendSourceOfBank) + new Decimal(companyRDData.RDSpendSourceOfBank));
+                summaryCompanyRDData.RDSpendSourceOfBank = summaryCompanyRDData.RDSpendSourceOfBank+companyRDData.RDSpendSourceOfBank;
                 //4.来自风险投资（千元）
-                summaryCompanyRDData.RDSpendSourceOfRiskCapital = (float)(new Decimal(summaryCompanyRDData.RDSpendSourceOfRiskCapital) + new Decimal(companyRDData.RDSpendSourceOfRiskCapital));
+                summaryCompanyRDData.RDSpendSourceOfRiskCapital = summaryCompanyRDData.RDSpendSourceOfRiskCapital+companyRDData.RDSpendSourceOfRiskCapital;
                 //5.来自其他渠道（千元）
-                summaryCompanyRDData.RDSpendSourceOfOthers = (float)(new Decimal(summaryCompanyRDData.RDSpendSourceOfOthers) + new Decimal(companyRDData.RDSpendSourceOfOthers));
+                summaryCompanyRDData.RDSpendSourceOfOthers = summaryCompanyRDData.RDSpendSourceOfOthers+companyRDData.RDSpendSourceOfOthers;
 
                 //五、相关政策落实情况
                 //申报加计扣除减免税的研究开发支出(千元)
-                summaryCompanyRDData.PolicyImplementDeclareAddtionRD = (float)(new Decimal(summaryCompanyRDData.PolicyImplementDeclareAddtionRD) + new Decimal(companyRDData.PolicyImplementDeclareAddtionRD));
+                summaryCompanyRDData.PolicyImplementDeclareAddtionRD = summaryCompanyRDData.PolicyImplementDeclareAddtionRD+companyRDData.PolicyImplementDeclareAddtionRD;
                 //加计扣除减免税金额(千元)
-                summaryCompanyRDData.PolicyImplementAddtionRDTaxFree = (float)(new Decimal(summaryCompanyRDData.PolicyImplementAddtionRDTaxFree) + new Decimal(companyRDData.PolicyImplementAddtionRDTaxFree));
+                summaryCompanyRDData.PolicyImplementAddtionRDTaxFree = summaryCompanyRDData.PolicyImplementAddtionRDTaxFree+companyRDData.PolicyImplementAddtionRDTaxFree;
                 //高新技术企业减免税金额(千元)
-                summaryCompanyRDData.PolicyImplementHighTechRDTaxFree = (float)(new Decimal(summaryCompanyRDData.PolicyImplementHighTechRDTaxFree) + new Decimal(companyRDData.PolicyImplementHighTechRDTaxFree));
+                summaryCompanyRDData.PolicyImplementHighTechRDTaxFree = summaryCompanyRDData.PolicyImplementHighTechRDTaxFree+companyRDData.PolicyImplementHighTechRDTaxFree;
 
 
                 //六、企业办研究开发机构（境内）情况
@@ -442,9 +448,9 @@ namespace SumRDTools
                 //其中：硕士毕业（人）
                 summaryCompanyRDData.CompanyRunOrgRDMaster += companyRDData.CompanyRunOrgRDMaster;
                 //机构研究开发费用（千元）
-                summaryCompanyRDData.CompanyRunOrgRDExpenses = (float)(new Decimal(summaryCompanyRDData.CompanyRunOrgRDExpenses) + new Decimal(companyRDData.CompanyRunOrgRDExpenses));
+                summaryCompanyRDData.CompanyRunOrgRDExpenses = summaryCompanyRDData.CompanyRunOrgRDExpenses+companyRDData.CompanyRunOrgRDExpenses;
                 //期末仪器和设备原价（千元）
-                summaryCompanyRDData.CompanyRunOrgEquipmentValueEndOfPeriod = (float)(new Decimal(summaryCompanyRDData.CompanyRunOrgEquipmentValueEndOfPeriod) + new Decimal(companyRDData.CompanyRunOrgEquipmentValueEndOfPeriod));
+                summaryCompanyRDData.CompanyRunOrgEquipmentValueEndOfPeriod = summaryCompanyRDData.CompanyRunOrgEquipmentValueEndOfPeriod+companyRDData.CompanyRunOrgEquipmentValueEndOfPeriod;
 
                 //七、研究开发产出及相关情况
                 //(一) 专利情况
@@ -459,13 +465,13 @@ namespace SumRDTools
                 //专利所有权转让及许可数（件）
                 summaryCompanyRDData.PatentApplyOfAssignment += companyRDData.PatentApplyOfAssignment;
                 //专利所有权转让及许可收入（千元）
-                summaryCompanyRDData.PatentApplyOfAssignmentIncome = (float)(new Decimal(summaryCompanyRDData.PatentApplyOfAssignmentIncome) + new Decimal(companyRDData.PatentApplyOfAssignmentIncome));
+                summaryCompanyRDData.PatentApplyOfAssignmentIncome = summaryCompanyRDData.PatentApplyOfAssignmentIncome+companyRDData.PatentApplyOfAssignmentIncome;
 
                 //(二) 新产品情况
                 //*新产品销售收入(千元)
-                summaryCompanyRDData.NewProductSaleRevenue = (float)(new Decimal(summaryCompanyRDData.NewProductSaleRevenue) + new Decimal(companyRDData.NewProductSaleRevenue));
+                summaryCompanyRDData.NewProductSaleRevenue = summaryCompanyRDData.NewProductSaleRevenue+companyRDData.NewProductSaleRevenue;
                 //*其中：出口(千元)
-                summaryCompanyRDData.NewProductSaleOfOutlet = (float)(new Decimal(summaryCompanyRDData.NewProductSaleOfOutlet) + new Decimal(companyRDData.NewProductSaleOfOutlet));
+                summaryCompanyRDData.NewProductSaleOfOutlet = summaryCompanyRDData.NewProductSaleOfOutlet+companyRDData.NewProductSaleOfOutlet;
                 //(三)其他情况
                 //*期末拥有注册商标(件)
                 summaryCompanyRDData.TrademarkOfPeriod += companyRDData.TrademarkOfPeriod;
@@ -477,13 +483,13 @@ namespace SumRDTools
                 //八、其他相关情况
                 //(一)技术改造和技术获取情况
                 //技术改造经费支出（千元）
-                summaryCompanyRDData.TechTransformExpenses = (float)(new Decimal(summaryCompanyRDData.TechTransformExpenses) + new Decimal(companyRDData.TechTransformExpenses));
+                summaryCompanyRDData.TechTransformExpenses = summaryCompanyRDData.TechTransformExpenses+companyRDData.TechTransformExpenses;
                 //购买境内技术经费支出（千元）
-                summaryCompanyRDData.BuyDomesticTechExpenses = (float)(new Decimal(summaryCompanyRDData.BuyDomesticTechExpenses) + new Decimal(companyRDData.BuyDomesticTechExpenses));
+                summaryCompanyRDData.BuyDomesticTechExpenses = summaryCompanyRDData.BuyDomesticTechExpenses+companyRDData.BuyDomesticTechExpenses;
                 //引进境外技术经费支出（千元）
-                summaryCompanyRDData.ImpOverseasTechExpenses = (float)(new Decimal(summaryCompanyRDData.ImpOverseasTechExpenses) + new Decimal(companyRDData.ImpOverseasTechExpenses));
+                summaryCompanyRDData.ImpOverseasTechExpenses = summaryCompanyRDData.ImpOverseasTechExpenses+companyRDData.ImpOverseasTechExpenses;
                 //引进境外技术的消化吸收经费支出（千元）
-                summaryCompanyRDData.ImpOverseasTechDigestionExpenses = (float)(new Decimal(summaryCompanyRDData.ImpOverseasTechDigestionExpenses) + new Decimal(companyRDData.ImpOverseasTechDigestionExpenses));
+                summaryCompanyRDData.ImpOverseasTechDigestionExpenses = summaryCompanyRDData.ImpOverseasTechDigestionExpenses+companyRDData.ImpOverseasTechDigestionExpenses;
                 // (二)企业办研究开发机构（境外）情况
                 //期末企业在境外设立的研究开发机构数(个)
                 summaryCompanyRDData.OverseasOrgCount += companyRDData.OverseasOrgCount;
@@ -686,17 +692,17 @@ namespace SumRDTools
         }
 
         //正则获取到数字返回
-        public float getFloat(string numberStr) {
+        public decimal getDecimal(string numberStr) {
 
             //通过正则获取到表格中的数据
-            string pattern = @"^\d+(\.\d+)?$"; // 匹配一串连续的数字  
+            string pattern = @"(-?\d+)(\.\d+)?"; // 匹配一串连续的数字  
 
             Regex regex = new Regex(pattern);
             System.Text.RegularExpressions.Match match = regex.Match(numberStr);
 
             if (match.Success)
             {
-                return float.Parse(match.Value);
+                return decimal.Parse(match.Value);
             }
             else
             {
@@ -709,7 +715,7 @@ namespace SumRDTools
         {
 
             //通过正则获取到表格中的数据
-            string pattern = @"^\d+(\.\d+)?$"; // 匹配一串连续的数字  
+            string pattern = @"(-?\d+)(\.\d+)?"; // 匹配一串连续的数字  
 
             Regex regex = new Regex(pattern);
             System.Text.RegularExpressions.Match match = regex.Match(numberStr);
@@ -724,10 +730,10 @@ namespace SumRDTools
             }
         }
 
-        //获取单元格的值
+        //写值到单元格中
         public void writeDataIntoCell(ISheet sheet, int rowIndex, int colIndex, dynamic cellValue)
         {
-            sheet.GetRow(rowIndex).GetCell(colIndex).SetCellValue(cellValue);
+            sheet.GetRow(rowIndex).GetCell(colIndex).SetCellValue(""+cellValue);
         }
 
         //删除指定文件夹下的文件

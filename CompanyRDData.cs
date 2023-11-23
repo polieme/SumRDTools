@@ -24,58 +24,58 @@ namespace SumRDTools
 
         //二、研究开发费用情况
         // 研究开发费用合计（千元）
-        public float RDExpensesTotal { get; set; }
+        public decimal RDExpensesTotal { get; set; }
         //1.人员人工费用（千元）
-        public float RDExpensesPersonnelLabor { get; set; }
+        public decimal RDExpensesPersonnelLabor { get; set; }
         //2.直接投入费用（千元）
-        public float RDExpensesDirectInput { get; set; }
+        public decimal RDExpensesDirectInput { get; set; }
         //3.折旧费用与长期待摊费用（千元）(Depreciation and long-term amortization expenses)
-        public float RDExpensesDepreciationAndLongTerm { get; set; }
+        public decimal RDExpensesDepreciationAndLongTerm { get; set; }
         //4.无形资产摊销费用（千元）(Amortization expense of intangible assets)
-        public float RDExpensesIntangibleAssets { get; set; }
+        public decimal RDExpensesIntangibleAssets { get; set; }
         //5.设计费用（千元）
-        public float RDExpensesDesign { get; set; }
+        public decimal RDExpensesDesign { get; set; }
         //6.装备调试费用与试验费用（千元）(Equipment commissioning costs and test costs)
-        public float RDExpensesEquipmentDebug { get; set; }
+        public decimal RDExpensesEquipmentDebug { get; set; }
         //7.委托外部研究开发费用（千元）(Outsourced R&D)
-        public float RDExpensesEntrustOutsourcedRD { get; set; }
+        public decimal RDExpensesEntrustOutsourcedRD { get; set; }
         //①委托境内研究机构（千元）（Entrust domestic research institutions）
-        public float RDExpensesEntrustDomesticResearch { get; set; }
+        public decimal RDExpensesEntrustDomesticResearch { get; set; }
         //②委托境内高等学校（千元）
-        public float RDExpensesEntrustDomesticCollege { get; set; }
+        public decimal RDExpensesEntrustDomesticCollege { get; set; }
         //③委托境内企业（千元）
-        public float RDExpensesEntrustDomesticCompany { get; set; }
+        public decimal RDExpensesEntrustDomesticCompany { get; set; }
         //④委托境外机构（千元）(Overseas Institutions)
-        public float RDExpensesEntrustOverseasInstitutions { get; set; }
+        public decimal RDExpensesEntrustOverseasInstitutions { get; set; }
         //8.其他费用（千元）
-        public float RDExpensesOthers { get; set; }
+        public decimal RDExpensesOthers { get; set; }
 
 
         //三、研究开发资产情况
         //当年形成用于研究开发的固定资产（千元）
-        public float RDAssetsYear { get; set; }
+        public decimal RDAssetsYear { get; set; }
         //其中：仪器和设备（千元）
-        public float RDAssetsYearEquipment { get; set; }
+        public decimal RDAssetsYearEquipment { get; set; }
 
         //四、研究开发支出资金来源(Sources of funding for R&D expenditures)
         //1.来自企业自筹(千元)
-        public float RDSpendSourceOfCompany { get; set; }
+        public decimal RDSpendSourceOfCompany { get; set; }
         //2.来自政府部门（千元）
-        public float RDSpendSourceOfGovernment { get; set; }
+        public decimal RDSpendSourceOfGovernment { get; set; }
         //3.来自银行贷款（千元）
-        public float RDSpendSourceOfBank { get; set; }
+        public decimal RDSpendSourceOfBank { get; set; }
         //4.来自风险投资（千元）
-        public float RDSpendSourceOfRiskCapital { get; set; }
+        public decimal RDSpendSourceOfRiskCapital { get; set; }
         //5.来自其他渠道（千元）
-        public float RDSpendSourceOfOthers { get; set; }
+        public decimal RDSpendSourceOfOthers { get; set; }
 
         //五、相关政策落实情况(Policy implementation)
         //申报加计扣除减免税的研究开发支出(千元)(Declare additional deduction and subtraction)
-        public float PolicyImplementDeclareAddtionRD { get; set; }
+        public decimal PolicyImplementDeclareAddtionRD { get; set; }
         //加计扣除减免税金额(千元)
-        public float PolicyImplementAddtionRDTaxFree { get; set; }
+        public decimal PolicyImplementAddtionRDTaxFree { get; set; }
         //高新技术企业减免税金额(千元)（The amount of tax reduction and exemption for high-tech enterprises）
-        public float PolicyImplementHighTechRDTaxFree { get; set; }
+        public decimal PolicyImplementHighTechRDTaxFree { get; set; }
 
         //六、企业办研究开发机构（境内）情况(Enterprise-run research and development institutions (domestic).)
         //期末机构数(个)
@@ -87,9 +87,9 @@ namespace SumRDTools
         //其中：硕士毕业（人）
         public int CompanyRunOrgRDMaster { get; set; }
         //机构研究开发费用（千元）
-        public float CompanyRunOrgRDExpenses { get; set; }
+        public decimal CompanyRunOrgRDExpenses { get; set; }
         //期末仪器和设备原价（千元）
-        public float CompanyRunOrgEquipmentValueEndOfPeriod { get; set; }
+        public decimal CompanyRunOrgEquipmentValueEndOfPeriod { get; set; }
 
 
         //七、研究开发产出及相关情况
@@ -105,13 +105,13 @@ namespace SumRDTools
         //专利所有权转让及许可数（件）
         public int PatentApplyOfAssignment { get; set; }
         //专利所有权转让及许可收入（千元）
-        public float PatentApplyOfAssignmentIncome { get; set; }
+        public decimal PatentApplyOfAssignmentIncome { get; set; }
 
         //(二) 新产品情况
         //*新产品销售收入(千元)(New product sales revenue)
-        public float NewProductSaleRevenue { get; set; }
+        public decimal NewProductSaleRevenue { get; set; }
         //*其中：出口(千元)
-        public float NewProductSaleOfOutlet { get; set; }
+        public decimal NewProductSaleOfOutlet { get; set; }
 
 
         //(三)其他情况
@@ -126,13 +126,13 @@ namespace SumRDTools
         //八、其他相关情况
         //(一)技术改造和技术获取情况
         //技术改造经费支出（千元）（Expenditure on technological transformation）
-        public float TechTransformExpenses { get; set; }
+        public decimal TechTransformExpenses { get; set; }
         //购买境内技术经费支出（千元）（Expenditure on the purchase of domestic technology）
-        public float BuyDomesticTechExpenses { get; set; }
+        public decimal BuyDomesticTechExpenses { get; set; }
         //引进境外技术经费支出（千元）
-        public float ImpOverseasTechExpenses { get; set; }
+        public decimal ImpOverseasTechExpenses { get; set; }
         //引进境外技术的消化吸收经费支出（千元）
-        public float ImpOverseasTechDigestionExpenses { get; set; }
+        public decimal ImpOverseasTechDigestionExpenses { get; set; }
 
         // (二)企业办研究开发机构（境外）情况
         //期末企业在境外设立的研究开发机构数(个)
