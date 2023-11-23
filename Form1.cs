@@ -288,7 +288,7 @@ namespace SumRDTools
                         errorText += "研究开发人员合计≥机构研究开发人员≥其中：博士毕业+其中：硕士毕业；";
                     }
                     //7=8+9+10+11+12+13+14+19≥26（研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用）
-                    if (Math.Abs(companyRDData.RDExpensesTotal - (companyRDData.RDExpensesPersonnelLabor * 100 + companyRDData.RDExpensesDirectInput * 100 + companyRDData.RDExpensesDepreciationAndLongTerm * 100 + companyRDData.RDExpensesIntangibleAssets * 100 + companyRDData.RDExpensesDesign * 100 + companyRDData.RDExpensesEquipmentDebug * 100 + companyRDData.RDExpensesEntrustOutsourcedRD * 100 + companyRDData.RDExpensesOthers * 100) / 100) > float.Epsilon || companyRDData.RDExpensesTotal < companyRDData.CompanyRunOrgRDExpenses)
+                    if (new Decimal(companyRDData.RDExpensesTotal) != (new Decimal(companyRDData.RDExpensesPersonnelLabor) + new Decimal(companyRDData.RDExpensesDirectInput) + new Decimal(companyRDData.RDExpensesDepreciationAndLongTerm) + new Decimal(companyRDData.RDExpensesIntangibleAssets) + new Decimal(companyRDData.RDExpensesDesign) + new Decimal(companyRDData.RDExpensesEquipmentDebug) + new Decimal(companyRDData.RDExpensesEntrustOutsourcedRD) + new Decimal(companyRDData.RDExpensesOthers)) || companyRDData.RDExpensesTotal < companyRDData.CompanyRunOrgRDExpenses)
                     {
                         isSummary = false;
                         errorText += "研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用；";
@@ -305,7 +305,7 @@ namespace SumRDTools
                         errorText += "若人员人工费用>0，则研究开发人员合计>0；";
                     }
                     //14=15+16+17+18（委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构）
-                    if (Math.Abs(companyRDData.RDExpensesEntrustOutsourcedRD - (companyRDData.RDExpensesEntrustDomesticResearch * 100 + companyRDData.RDExpensesEntrustDomesticCollege * 100 + companyRDData.RDExpensesEntrustDomesticCompany * 100 + companyRDData.RDExpensesEntrustOverseasInstitutions * 100) / 100) > float.Epsilon) {
+                    if (new Decimal(companyRDData.RDExpensesEntrustOutsourcedRD) != (new Decimal(companyRDData.RDExpensesEntrustDomesticResearch) + new Decimal(companyRDData.RDExpensesEntrustDomesticCollege) + new Decimal(companyRDData.RDExpensesEntrustDomesticCompany) + new Decimal(companyRDData.RDExpensesEntrustOverseasInstitutions))) {
                         isSummary = false;
                         errorText += "委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构；";
                     }
