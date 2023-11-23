@@ -686,7 +686,7 @@ namespace SumRDTools
         }
 
         //正则获取到数字返回
-        public decimal getFloat(string numberStr) {
+        public float getFloat(string numberStr) {
 
             //通过正则获取到表格中的数据
             string pattern = @"^\d+(\.\d+)?$"; // 匹配一串连续的数字  
@@ -696,7 +696,7 @@ namespace SumRDTools
 
             if (match.Success)
             {
-                return decimal.Parse(match.Value);
+                return float.Parse(match.Value);
             }
             else
             {
