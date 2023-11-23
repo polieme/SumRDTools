@@ -662,7 +662,7 @@ namespace SumRDTools
                 else if (cell.CellType == CellType.Formula)
                 {
                     // 公式类型，需要计算后获取值  
-                    return cell.StringCellValue;
+                    return "" + cell.NumericCellValue;
                 }
                 else if (cell.CellType == CellType.Blank)
                 {
