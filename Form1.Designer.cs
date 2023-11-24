@@ -182,7 +182,7 @@
             this.Name = "Form1";
             this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.Style = Sunny.UI.UIStyle.Gray;
-            this.Text = "企业研发开发活动及相关情况合并工具";
+            this.Text = "企业研发活动情况表汇总数据工具";
             this.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 960, 641);
             this.Load += new System.EventHandler(this.Form1_Load);

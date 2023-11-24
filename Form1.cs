@@ -62,12 +62,6 @@ namespace SumRDTools
                 else
                 {
                     //调用委托开始执行文件内容读取
-                    /*Thread myThread = new Thread(new ThreadStart(async delegate
-                    {
-                        dealExcelAndPrintLogThreadMethod(directoryInfo);
-                    }));
-                    myThread.Start();
-                    */
                     Task task = Task.Run(() =>
                     {
                         dealExcelAndPrintLogThreadMethod(directoryInfo);
@@ -103,6 +97,11 @@ namespace SumRDTools
             List< CompanyRDData > companyRDDatas = new List< CompanyRDData >();
             foreach (FileSystemInfo fsInfo in fsInfos)
             {
+                //跳过隐藏文件
+                if (fsInfo.Attributes.HasFlag(FileAttributes.Hidden)) {
+                    continue;
+                }
+
                 //是否要
                 Boolean isSummary = true;
                 //错误日志信息
@@ -113,7 +112,7 @@ namespace SumRDTools
                 if (fsInfo.Exists && (fsInfo.Extension == ".xls" || fsInfo.Extension == ".xlsx"))
                 {
                     CompanyRDData companyRDData = new CompanyRDData();
-                    FileStream fs = new FileStream(fsInfo.FullName, FileMode.Open, FileAccess.Read);
+                    FileStream fs = new FileStream(fsInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     IWorkbook workbook;
                     // 根据文件扩展名判断是.xls还是.xlsx
                     if (fsInfo.Extension == ".xls")
