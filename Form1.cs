@@ -62,11 +62,16 @@ namespace SumRDTools
                 else
                 {
                     //调用委托开始执行文件内容读取
-                    Thread myThread = new Thread(new ThreadStart(async delegate
+                    /*Thread myThread = new Thread(new ThreadStart(async delegate
                     {
                         dealExcelAndPrintLogThreadMethod(directoryInfo);
                     }));
                     myThread.Start();
+                    */
+                    Task task = Task.Run(() =>
+                    {
+                        dealExcelAndPrintLogThreadMethod(directoryInfo);
+                    });
                 }
             }
         }
