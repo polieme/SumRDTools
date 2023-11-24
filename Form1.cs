@@ -256,6 +256,7 @@ namespace SumRDTools
 
 
                     //逻辑判断
+                    //下面这些是将数据剔除出去的条件
                     //1≥2（研究开发人员合计≥其中：管理和服务人员）
                     if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelManageAndService) {
                         isSummary = false;
@@ -343,20 +344,36 @@ namespace SumRDTools
                         isSummary = false;
                         errorText += "新产品销售收入≥其中：出口；";
                     }
-
                     //研究开发费用合计 = 四、研究开发支出资金来源中各项的和
                     if (companyRDData.RDExpensesTotal != (companyRDData.RDSpendSourceOfCompany + companyRDData.RDSpendSourceOfGovernment + companyRDData.RDSpendSourceOfBank + companyRDData.RDSpendSourceOfRiskCapital + companyRDData.RDSpendSourceOfOthers)) {
                         isSummary = false;
                         errorText += "研究开发费用合计 = 四、研究开发支出资金来源中各项的和；";
                     }
 
+
+                    //下面这些是只做提醒的的条件
+                    //"期末机构数"如果为0，则进行提醒，不剔除数据
+                    if (companyRDData.CompanyRunOrgCountEndOfPeriod == 0) {
+                        errorText += "期末机构数为0；";
+                    }
+                    //" 7.委托外部研究开发费用"如果大于0，，则进行提醒，不剔除数据
+                    if (companyRDData.RDExpensesEntrustOutsourcedRD > 0)
+                    {
+                        errorText += "存在委托外部研究开发费用；";
+                    }
+
+
                     //如果逻辑校验没有问题
                     if (isSummary)
                     {
                         companyRDDatas.Add(companyRDData);
+                        //提醒不剔除数据的
+                        if (!string.IsNullOrWhiteSpace(errorText)) { 
+                            errorLogTextBox.AppendText("常规提示：《" + fsInfo.Name+"》" +"中触发了以下规则："+errorText+ "\r\n");
+                        }
                     }
                     else { 
-                        errorLogTextBox.AppendText("《"+fsInfo.Name+"》" +"中触发了以下规则："+errorText+ "\r\n");
+                        errorLogTextBox.AppendText("必须修改：《" + fsInfo.Name+"》" +"中触发了以下规则："+errorText+ "\r\n");
                         //拷贝一份文件到触发规则文件夹
                         File.Copy(fsInfo.FullName, errorFilePath + fsInfo.Name);
                     }
