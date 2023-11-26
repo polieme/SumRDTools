@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompanyRDData.cs" />
+    <Compile Include="DateUtils.cs" />
     <Compile Include="ExcelUtils.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -131,6 +132,7 @@
     </Compile>
     <Compile Include="NumberUtils.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectRDData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileOptUtils.cs" />
     <EmbeddedResource Include="Form1.resx">

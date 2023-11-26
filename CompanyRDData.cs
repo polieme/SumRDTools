@@ -137,5 +137,9 @@ namespace SumRDTools
         // (二)企业办研究开发机构（境外）情况
         //期末企业在境外设立的研究开发机构数(个)
         public int OverseasOrgCount { get; set; }
+
+        //企业研发项目填报情况
+        public List<ProjectRDData> projectRDDatas = new List<ProjectRDData>();
+
     }
 }

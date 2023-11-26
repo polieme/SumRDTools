@@ -177,6 +177,65 @@ namespace SumRDTools
         //获取107-1表中的数据并赋值到对象的列表中
         private void Get1071SheetData(CompanyRDData companyRDData, ISheet RDProjectSheet) {
 
+            /*  
+            基本思路：1、从6行开始读取数据
+                      2、判断每一行的第一个单元格的不是以“单位负责人： ”开头，而且第二个单元格有项目名称
+                      3、开始获取数据
+            */
+            for (int i = 5; i < RDProjectSheet.LastRowNum; i++) { 
+                //索引列
+                String indexColStr = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 0);
+                //项目名称列
+                String RDProjectName = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 1);
+                //项目
+                if (indexColStr.StartsWith("单位负责人") || string.IsNullOrEmpty(RDProjectName)) {
+                    break;
+                }
+
+                //创建一条项目对象，用来接收项目信息
+                ProjectRDData projectRDData = new ProjectRDData();
+                //项目名称
+                projectRDData.RDProjectName = RDProjectName;
+                //项目来源
+                projectRDData.RDProjectSource = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 2);
+                //项目开展形式
+                projectRDData.RDProjectDevForm = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 3);
+                //项目当年成果形式(Project current results form)
+                projectRDData.RDProjectCurrentResultsForm = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 4);
+                //项目技术经济目标
+                projectRDData.RDProjectEconomicTarget = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 5);
+                //项目起始日期
+                //TODO:处理下起始日期
+                //项目完成日期
+                //TODO:处理下完成日期
+
+                //跨年项目当年所处主要进展阶段
+                projectRDData.AcrossYearRDProjectCurrentStage = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 8);
+                //项目研究开发人员 （人）
+                projectRDData.RDProjectResearcherCount = NumberUtils.getInt(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 9));
+                //项目人员实际工作时间  （人月）
+                projectRDData.RDProjectStaffWorkMonth = NumberUtils.getInt(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 10));
+                //项目经费支出（千元）
+                projectRDData.RDProjectExpenses = NumberUtils.getDecimal(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 11));
+                //其中：政府资金
+                projectRDData.RDProjectExpensesFromGovernment = NumberUtils.getDecimal(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 12));
+                //*其中：用于科学原理的探索发现
+                projectRDData.RDProjectExpensesForSicResearch = NumberUtils.getDecimal(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 13));
+                //*其中：企业自主开展
+                projectRDData.RDProjectExpensesFromComSelf = NumberUtils.getDecimal(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 14));
+                //*委托外单位开展
+                projectRDData.RDProjectExpensesFromEntrustOutsource = NumberUtils.getDecimal(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 15));
+
+                companyRDData.projectRDDatas.Add(projectRDData);
+            }
+
+
+
+
+
+
+            Console.WriteLine("123");
+
         }
 
 
