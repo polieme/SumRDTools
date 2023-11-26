@@ -19,8 +19,8 @@ namespace SumRDTools
             if (cell != null)
             {
                 // 判断单元格类型  
-                if (cell.CellType == CellType.String)
-                {
+                 if(cell.CellType == CellType.String)
+                {                    
                     // 字符串类型  
                     return cell.StringCellValue;
                 }

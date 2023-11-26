@@ -141,5 +141,9 @@ namespace SumRDTools
         //企业研发项目填报情况
         public List<ProjectRDData> projectRDDatas = new List<ProjectRDData>();
 
+
+        //牵扯到107-1表的合计数据
+        //人月合计
+        public int RDProjectStaffWorkMonth { get; set; }
     }
 }

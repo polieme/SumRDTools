@@ -8,22 +8,28 @@ namespace SumRDTools
 {
     public class DateUtils
     {
-        private String Format_yyyyMM = "yyyyMM";
-        private String Format_yyyyMMdd = "yyyyMMdd";
+        private static String Format_yyyyMM = "yyyyMM";
+        private static String Format_yyyyMMdd = "yyyyMMdd";
+
 
         //格式化日期
         public static DateTime formatDatetime(String datetimeStr) {
-            //先正则获取到日期串中的数字
-
-
-
-
-            //思路：分步尝试各种格式的日期格式化，如果到最后都没能格式化成功，就报日期错误吧
-
-
-
-
-
+            DateTime result;
+            if (DateTime.TryParseExact(datetimeStr, Format_yyyyMM, null, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+            if (DateTime.TryParseExact(datetimeStr, Format_yyyyMMdd, null, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+            else if (double.TryParse(datetimeStr,out Double date))
+            {
+                return DateTime.FromOADate(date);
+            }
+            else {
+                Console.WriteLine("解析失败："+datetimeStr);
+            }
 
             return new DateTime();
         }

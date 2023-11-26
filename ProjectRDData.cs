@@ -25,10 +25,10 @@ namespace SumRDTools
 
 
         //项目起始日期
-        public DateTime RDProjectBeginDate { get; set; }
+        public String RDProjectBeginDate { get; set; }
 
         //项目完成日期
-        public DateTime RDProjectEndDate { get; set; }
+        public String RDProjectEndDate { get; set; }
 
         //跨年项目当年所处主要进展阶段
         public String AcrossYearRDProjectCurrentStage { get; set; }

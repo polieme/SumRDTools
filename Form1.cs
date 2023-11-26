@@ -104,10 +104,15 @@ namespace SumRDTools
                     continue;
                 }
 
-                //是否要
+                //是否纳入汇总
                 Boolean isSummary = true;
                 //错误日志信息
                 String errorText = "";
+                //是否要提示
+                Boolean isTips = false;
+                //提示日志信息
+                String tipsText = "";
+
                 //常规日志输出
                 logTextBox.AppendText(fsInfo.Name + "\r\n");
                 //判断文件是否还存在，并判断文件类型
@@ -137,26 +142,33 @@ namespace SumRDTools
                     // 第二个工作表对象（107-2：企业研发活动相关情况表）
                     ISheet RDAcitivitySheet = workbook.GetSheetAt(1);
                     //开始获取第一个表格（107-1：企业研发项目填报报表）的数据
+                    Console.WriteLine(fsInfo.FullName);
                     Get1071SheetData(companyRDData, RDProjectSheet);
                     //开始获取第二个Sheet表（107-2：企业研发活动相关情况表）的数据
                     Get1072SheetData(companyRDData, RDAcitivitySheet);
 
                     //逻辑判断
-                    LogicCheck(companyRDData, ref isSummary, ref errorText);
+                    /**
+                      思路：系统分为两个等级：1、提示等级（仅提示，但输入会纳入汇总中）；2、错误等级（显示错误信息，不会纳入系统）
+                      因此这两部分的提示信息需要拆开，因为有些填报的数据既触发了错误等级又触发提示等级，这些得分开
+                     * */
+                    LogicCheck(companyRDData, ref isSummary, ref errorText, ref isTips, ref tipsText);
 
-                    //如果逻辑校验没有问题
+                    //可以合并计算的数据
                     if (isSummary)
                     {
                         companyRDDatas.Add(companyRDData);
-                        //提醒不剔除数据的
-                        if (!string.IsNullOrWhiteSpace(errorText)) { 
-                            errorLogTextBox.AppendText("常规提示：《" + fsInfo.Name+"》" +"中触发了以下规则："+errorText+ "\r\n");
-                        }
                     }
                     else { 
                         errorLogTextBox.AppendText("必须修改：《" + fsInfo.Name+"》" +"中触发了以下规则："+errorText+ "\r\n");
                         //拷贝一份文件到异常数据文件夹
                         File.Copy(fsInfo.FullName, errorFilePath + fsInfo.Name);
+                    }
+
+                    //常规提示性信息打印
+                    if (isTips) {
+                        //提醒不剔除数据的
+                        errorLogTextBox.AppendText("常规提示：《" + fsInfo.Name + "》" + "中触发了以下规则：" + tipsText + "\r\n");
                     }
 
                     fs.Close();
@@ -206,9 +218,9 @@ namespace SumRDTools
                 projectRDData.RDProjectEconomicTarget = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 5);
                 //项目起始日期
                 //TODO:处理下起始日期
+                projectRDData.RDProjectBeginDate = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 6);
                 //项目完成日期
-                //TODO:处理下完成日期
-
+                projectRDData.RDProjectEndDate = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 7);
                 //跨年项目当年所处主要进展阶段
                 projectRDData.AcrossYearRDProjectCurrentStage = ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 8);
                 //项目研究开发人员 （人）
@@ -226,16 +238,12 @@ namespace SumRDTools
                 //*委托外单位开展
                 projectRDData.RDProjectExpensesFromEntrustOutsource = NumberUtils.getDecimal(ExcelUtils.getCellValueByCellType(RDProjectSheet, i, 15));
 
+                //把项目信息对象塞入到企业信息表中
                 companyRDData.projectRDDatas.Add(projectRDData);
+
+                //计算下人月合计最后赋值到companyRDData对象中，供后期计算人月工资试用
+                companyRDData.RDProjectStaffWorkMonth += projectRDData.RDProjectStaffWorkMonth;
             }
-
-
-
-
-
-
-            Console.WriteLine("123");
-
         }
 
 
@@ -366,7 +374,9 @@ namespace SumRDTools
         }
 
         //逻辑校验
-        private void LogicCheck(CompanyRDData companyRDData, ref Boolean isSummary, ref String errorText) {
+        private void LogicCheck(CompanyRDData companyRDData, ref Boolean isSummary, ref String errorText,ref Boolean isTips, ref String tipsText) {
+            
+            List<ProjectRDData> projectRDDatas = companyRDData.projectRDDatas;
             //下面这些是将数据剔除出去的条件
             //1≥2（研究开发人员合计≥其中：管理和服务人员）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelManageAndService)
@@ -464,17 +474,107 @@ namespace SumRDTools
                 isSummary = false;
                 errorText += "研究开发费用合计 = 四、研究开发支出资金来源中各项的和；";
             }
+            //107-2表中 研究开发人员合计*12不能大于各项目人月合计
+            if (companyRDData.RDPersonnelTotal * 12 < companyRDData.RDProjectStaffWorkMonth) {
+                isSummary = false;
+                errorText += "107-2表中 研究开发人员合计*12不能大于各项目人月合计；";
+            }
+
+
 
             //下面这些是只做提醒的的条件
             //"期末机构数"如果为0，则进行提醒，不剔除数据
             if (companyRDData.CompanyRunOrgCountEndOfPeriod == 0)
             {
-                errorText += "期末机构数为0；";
+                isTips = true;
+                tipsText += "期末机构数为0；";
             }
             //" 7.委托外部研究开发费用"如果大于0，，则进行提醒，不剔除数据
             if (companyRDData.RDExpensesEntrustOutsourcedRD > 0)
             {
-                errorText += "存在委托外部研究开发费用；";
+                isTips = true;
+                tipsText += "存在委托外部研究开发费用；";
+            }
+            //人员费用支出/人月,低于<2200，不能高于5万（提示）
+            decimal avgWagesPerMonth = companyRDData.RDExpensesPersonnelLabor*1000 / companyRDData.RDProjectStaffWorkMonth;
+            if (avgWagesPerMonth < 2200 || avgWagesPerMonth > 50000) { 
+                isTips = true;
+                tipsText += "107-2表：人员人工费用÷107-1表：项目人员实际工作时间（人月）合计小于2200元或大于5万元；";
+            }
+
+            //校验项目名称中不能包含“一种、技改、改造、年产、生产线、打样、翻样、产业化、示范、推广、CYH、JG、系统”字样
+            String[] forbiddenWordsInProjectNameArg = { "一种", "技改", "改造", "年产", "生产线", "打样", "翻样", "产业化", "示范", "推广", "CYH", "JG", "系统" };
+            foreach(ProjectRDData projectRDData in projectRDDatas) {
+                //项目名称规则校验
+                String forbiddenWords = "";
+                foreach (String forbiddenWordInProjectName in forbiddenWordsInProjectNameArg)
+                {
+                    if (projectRDData.RDProjectName.Contains(forbiddenWordInProjectName)) {
+                        isTips = true;
+                        forbiddenWords += (forbiddenWordInProjectName+"、");
+                    }
+                }
+                if (!string.IsNullOrEmpty(forbiddenWords)) {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目中包含\""+ forbiddenWords.Substring(0, forbiddenWords.Length - 1) + "\"字眼；");
+                }
+
+                //项目当年成果形式中如果包含了（2.新产品、新工艺等推广与示范活动或3.对已有产品、工艺等进行一般性改进）则进行提示
+                if (projectRDData.RDProjectCurrentResultsForm.StartsWith("2")) {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择2.新产品、新工艺等推广与示范活动；");
+                }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("3"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择3.对已有产品、工艺等进行一般性改进；");
+                }
+
+                //技术经济指标选5.提高劳动生产率、6.减少能源消耗或提高能源使用效率、7.节约原材料、8.减少环境污染（提示）
+                if (projectRDData.RDProjectEconomicTarget.StartsWith("5"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择5.提高劳动生产率或；");
+                }
+                if (projectRDData.RDProjectEconomicTarget.StartsWith("6"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择6.减少能源消耗或提高能源使用效率；");
+                }
+                if (projectRDData.RDProjectEconomicTarget.StartsWith("7"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择7.节约原材料；");
+                }
+                if (projectRDData.RDProjectEconomicTarget.StartsWith("8"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择8.减少环境污染；");
+                }
+
+                //项目起始日期&项目完成日期
+                DateTime ProjectBeginDate = DateUtils.formatDatetime(projectRDData.RDProjectBeginDate);
+                DateTime ProjectEndDate = DateUtils.formatDatetime(projectRDData.RDProjectEndDate);
+                //如果是项目早于2000年或者项目晚于2045年，则认为是解析日期的时候解析出错了
+                if (ProjectBeginDate.Year < 2000 || ProjectBeginDate.Year > 2045 || ProjectEndDate.Year < 2000 || ProjectEndDate.Year > 2045)
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报；");
+                }
+                else {
+                    //如果项目周期跨年，则跨年项目所处主要进展阶段需要填写
+                    if (ProjectBeginDate.Year != 2023 && string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
+                    {
+                        isTips = true;
+                        tipsText += (projectRDData.RDProjectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段；");
+                    }
+
+                    //项目周期要大约等于3个月
+                    if (ProjectEndDate.Month - ProjectBeginDate.Month + (ProjectEndDate.Year - ProjectBeginDate.Year) * 12 +1< 4)
+                    {
+                        isTips = true;
+                        tipsText += (projectRDData.RDProjectName + "项目的周期必须大于3个月；");
+                    }
+                }
             }
         }
 
