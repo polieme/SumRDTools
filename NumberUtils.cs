@@ -21,7 +21,13 @@ namespace SumRDTools
 
             if (match.Success)
             {
-                return decimal.Parse(match.Value);
+                if (decimal.TryParse(match.Value, out decimal result))
+                {
+                    return result;
+                }
+                else {
+                    return 0;
+                }
             }
             else
             {

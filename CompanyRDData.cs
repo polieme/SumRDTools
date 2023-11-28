@@ -144,6 +144,6 @@ namespace SumRDTools
 
         //牵扯到107-1表的合计数据
         //人月合计
-        public int RDProjectStaffWorkMonth { get; set; }
+        public decimal RDProjectStaffWorkMonth { get; set; }
     }
 }

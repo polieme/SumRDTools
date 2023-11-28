@@ -37,7 +37,7 @@ namespace SumRDTools
         public int RDProjectResearcherCount { get; set; }
 
         //项目人员实际工作时间  （人月）
-        public int RDProjectStaffWorkMonth { get; set; }
+        public decimal RDProjectStaffWorkMonth { get; set; }
 
         //项目经费支出（千元）
         public decimal RDProjectExpenses { get; set; }
