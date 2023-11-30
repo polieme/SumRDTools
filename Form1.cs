@@ -195,12 +195,6 @@ namespace SumRDTools
         //获取107-1表中的数据并赋值到对象的列表中
         private void Get1071SheetData(CompanyRDData companyRDData, ISheet RDProjectSheet) {
 
-            //计算从第几行开始抽取项目数据
-            for()
-
-
-
-
             /*  
             基本思路：1、从6行开始读取数据
                       2、判断每一行的第一个单元格的不是以“单位负责人： ”开头，而且第二个单元格有项目名称
