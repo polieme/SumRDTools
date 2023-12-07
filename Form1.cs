@@ -159,16 +159,17 @@ namespace SumRDTools
                     {
                         companyRDDatas.Add(companyRDData);
                     }
-                    else { 
+                    else {
+                        companyRDDatas.Add(companyRDData);
                         errorLogTextBox.AppendText("错误提示：《" + fsInfo.Name+"》" + "中违反了以下规则：\r\n" + errorText+ "\r\n");
                         //拷贝一份文件到异常数据文件夹
-                        if (File.Exists(errorFilePath + fsInfo.Name))
+                        /*if (File.Exists(errorFilePath + fsInfo.Name))
                         {
                             File.Delete(errorFilePath + fsInfo.Name);
                         }
                         else { 
                             File.Move(fsInfo.FullName, errorFilePath + fsInfo.Name);
-                        }
+                        }*/
                     }
 
                     //常规提示性信息打印
