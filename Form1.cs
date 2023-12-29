@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Sunny.UI.Win32;
 using NPOI.Util;
+using Org.BouncyCastle.Asn1.Tsp;
 
 namespace SumRDTools
 {
@@ -191,6 +192,9 @@ namespace SumRDTools
 
             //导出数据到Excel中
             exportSummaryDataIntoExcel(summaryCompanyRDData, summaryFilePath);
+
+            //把项目人员实际工作时间输出到前台
+            logTextBox.AppendText("\r\n该县市区的项目人员实际工作时间合计为：" + summaryCompanyRDData.RDProjectStaffWorkMonth + "人月\r\n");
         }
 
         //获取107-1表中的数据并赋值到对象的列表中
@@ -247,6 +251,7 @@ namespace SumRDTools
 
                 //把项目信息对象塞入到企业信息表中
                 companyRDData.projectRDDatas.Add(projectRDData);
+
 
                 //计算下人月合计最后赋值到companyRDData对象中，供后期计算人月工资试用
                 companyRDData.RDProjectStaffWorkMonth += projectRDData.RDProjectStaffWorkMonth;
@@ -743,6 +748,10 @@ namespace SumRDTools
                 // (二)企业办研究开发机构（境外）情况
                 //期末企业在境外设立的研究开发机构数(个)
                 summaryCompanyRDData.OverseasOrgCount += companyRDData.OverseasOrgCount;
+
+
+                //计算该县市区下所有企业所有项目人员实际工作时间
+                summaryCompanyRDData.RDProjectStaffWorkMonth += companyRDData.RDProjectStaffWorkMonth;
             }
         }
 
