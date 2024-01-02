@@ -486,10 +486,10 @@ namespace SumRDTools
                 isSummary = false;
                 errorText += "研究开发费用合计 = 四、研究开发支出资金来源中各项的和；\r\n";
             }
-            //107-2表中 研究开发人员合计*12不能大于各项目人月合计
+            //107-2表中 研究开发人员合计*12需大于各项目人月合计
             if (companyRDData.RDPersonnelTotal * 12 < companyRDData.RDProjectStaffWorkMonth) {
                 isSummary = false;
-                errorText += "107-2表中 研究开发人员合计*12不能大于各项目人月合计；\r\n";
+                errorText += "107-2表中 研究开发人员合计*12需大于各项目人月合计；\r\n";
             }
 
             //下面这些是只做提醒的的条件
