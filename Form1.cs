@@ -387,7 +387,8 @@ namespace SumRDTools
 
         //逻辑校验
         private void LogicCheck(CompanyRDData companyRDData, ref Boolean isSummary, ref String errorText,ref Boolean isTips, ref String tipsText) {
-            
+
+            //107-1表 企业研究开发项目情况
             List<ProjectRDData> projectRDDatas = companyRDData.projectRDDatas;
             //下面这些是将数据剔除出去的条件
             //1≥2（研究开发人员合计≥其中：管理和服务人员）
@@ -534,6 +535,7 @@ namespace SumRDTools
                 tipsText += "当年专利申请数和发表科技论文数为不能同时0；\r\n";
             }
 
+            //校验107-1 项目信息表中的信息
             //校验项目名称中不能包含“一种、技改、改造、年产、生产线、打样、翻样、产业化、示范、推广、CYH、JG、系统”字样
             String[] forbiddenWordsInProjectNameArg = { "土建", "产业园", "资产", "购买", "改良", "一种", "改造", "技改", "生产", "产业化", "打样", "翻样", "推广", "示范", "年产", "业务费", "运行补贴", "补贴", "工业性实验", "成果应用", "成果转化", "绿色制造", "节能", "产业", "国债付息", "创投", "创业投资", "科技特派员", "特派员", "技术服务", "技术创新服务", "智库", "科普", "科学技术普及", "运营维护", "升级", "科技交流", "智慧信访", "工作经费", "信息系统", "信息化平台", "办公平台", "平台建设", "管理平台", "管理系统", "监管平台", "智慧校园", "离退休", "业务活动", "奖励", "股改", "融资", "租赁", "示范", "科技管理", "备案", "评估", "服务经费", "项目监理", "打包贷款" };
             foreach(ProjectRDData projectRDData in projectRDDatas) {
@@ -601,11 +603,22 @@ namespace SumRDTools
                     tipsText += (projectRDData.RDProjectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报；\r\n");
                 }
                 else {
-                    //如果项目周期跨年，则跨年项目所处主要进展阶段需要填写
-                    if (ProjectBeginDate.Year != 2023 && string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
+                    //如果项目周期跨年
+                    if (ProjectBeginDate.Year != 2023 || ProjectEndDate.Year != 2023)
                     {
-                        isTips = true;
-                        tipsText += (projectRDData.RDProjectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段；\r\n");
+                        //如果“跨年项目需要填写主要进展阶段”为空（跨年项目需要填写跨年项目需要填写主要进展阶段）
+                        if (string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
+                        {
+                            isTips = true;
+                            tipsText += (projectRDData.RDProjectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段；\r\n");
+                        }
+                        else {
+                            //跨年项目不要填写试生产阶段
+                            if (projectRDData.AcrossYearRDProjectCurrentStage.Contains("试生产阶段")) {
+                                isTips = true;
+                                tipsText += (projectRDData.RDProjectName + "项目是跨年项目，不要选择试生产阶段；\r\n");
+                            }
+                        }
                     }
 
                     //项目周期要大约等于3个月
@@ -615,6 +628,7 @@ namespace SumRDTools
                         tipsText += (projectRDData.RDProjectName + "项目的周期必须大于3个月；\r\n");
                     }
                 }
+
             }
         }
 
