@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.folderPathText = new Sunny.UI.UITextBox();
             this.chooseFolderBtn = new Sunny.UI.UIButton();
             this.summaryBtn = new Sunny.UI.UIButton();
@@ -179,6 +180,7 @@
             this.Controls.Add(this.summaryBtn);
             this.Controls.Add(this.chooseFolderBtn);
             this.Controls.Add(this.folderPathText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.Style = Sunny.UI.UIStyle.Gray;
