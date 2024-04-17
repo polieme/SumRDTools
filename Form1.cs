@@ -245,10 +245,6 @@ namespace SumRDTools
 
                 //把项目信息对象塞入到企业信息表中
                 companyRDData.projectRDDatas.Add(projectRDData);
-
-
-                //计算下人月合计最后赋值到companyRDData对象中，供后期计算人月工资使用
-                companyRDData.RDProjectStaffWorkMonth += projectRDData.RDProjectStaffWorkMonth;
             }
         }
 
@@ -382,108 +378,108 @@ namespace SumRDTools
         //逻辑校验
         private void LogicCheck(CompanyRDData companyRDData, ref Boolean isSummary, ref String errorText,ref Boolean isTips, ref String tipsText) {
 
-            //107-1表 企业研究开发项目情况
+            //107-2表 企业研究开发活动及相关情况
             List<ProjectRDData> projectRDDatas = companyRDData.projectRDDatas;
             //下面这些是将数据剔除出去的条件
             //1≥2（研究开发人员合计≥其中：管理和服务人员）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelManageAndService)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发人员合计≥其中：管理和服务人员；\r\n";
             }
             //1≥3（研究开发人员合计≥其中：女性）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelFemale)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发人员合计≥其中：女性；\r\n";
             }
             //1≥4（研究开发人员合计≥其中：全职人员）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelFullTimeStaff)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发人员合计≥其中：全职人员；\r\n";
             }
             //1≥5≥24+25（研究开发人员合计≥其中：本科毕业及以上人员≥其中：博士毕业+其中：硕士毕业）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelBachelorAndAbove || companyRDData.RDPersonnelBachelorAndAbove < (companyRDData.CompanyRunOrgRDDoctor + companyRDData.CompanyRunOrgRDMaster))
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发人员合计≥其中：本科毕业及以上人员≥其中：博士毕业+其中：硕士毕业；\r\n";
             }
             //1≥6（研究开发人员合计≥其中：外聘人员）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelExternalStaff)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发人员合计≥其中：外聘人员；\r\n";
             }
             //1≥23≥24+25（研究开发人员合计≥机构研究开发人员≥其中：博士毕业+其中：硕士毕业）
             if (companyRDData.RDPersonnelTotal < companyRDData.CompanyRunOrgRDPersonnel || companyRDData.CompanyRunOrgRDPersonnel < (companyRDData.CompanyRunOrgRDDoctor + companyRDData.CompanyRunOrgRDMaster))
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发人员合计≥机构研究开发人员≥其中：博士毕业+其中：硕士毕业；\r\n";
             }
             //7=8+9+10+11+12+13+14+19≥26（研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用）
             if (companyRDData.RDExpensesTotal != (companyRDData.RDExpensesPersonnelLabor + companyRDData.RDExpensesDirectInput + companyRDData.RDExpensesDepreciationAndLongTerm + companyRDData.RDExpensesIntangibleAssets + companyRDData.RDExpensesDesign + companyRDData.RDExpensesEquipmentDebug + companyRDData.RDExpensesEntrustOutsourcedRD + companyRDData.RDExpensesOthers) || companyRDData.RDExpensesTotal < companyRDData.CompanyRunOrgRDExpenses)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用；\r\n";
             }
             //若1>0，则8>0（若研究开发人员合计>0，则人员人工费用>0）
             if (companyRDData.RDPersonnelTotal > 0 && companyRDData.RDExpensesPersonnelLabor == 0)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "若研究开发人员合计>0，则人员人工费用>0；\r\n";
             }
             //若8>0，则1>0（若人员人工费用>0，则研究开发人员合计>0）
             if (companyRDData.RDExpensesPersonnelLabor > 0 && companyRDData.RDPersonnelTotal == 0)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "若人员人工费用>0，则研究开发人员合计>0；\r\n";
             }
             //14=15+16+17+18（委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构）
             if (companyRDData.RDExpensesEntrustOutsourcedRD != (companyRDData.RDExpensesEntrustDomesticResearch + companyRDData.RDExpensesEntrustDomesticCollege + companyRDData.RDExpensesEntrustDomesticCompany + companyRDData.RDExpensesEntrustOverseasInstitutions))
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构；\r\n";
             }
             //20≥21（当年形成用于研究开发的固定资产≥其中：仪器和设备）
             if (companyRDData.RDAssetsYear < companyRDData.RDAssetsYearEquipment)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "当年形成用于研究开发的固定资产≥其中：仪器和设备；\r\n";
             }
             //若27>0，则22>0（若期末仪器和设备原价>0，则期末机构数>0）
             if (companyRDData.CompanyRunOrgEquipmentValueEndOfPeriod > 0 && companyRDData.CompanyRunOrgCountEndOfPeriod == 0)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "若期末仪器和设备原价>0，则期末机构数>0；\r\n";
             }
             //29≥30（当年专利申请数≥其中：发明专利）
             if (companyRDData.PatentApplyOfCurrentYear < companyRDData.PatentApplyOfInvention)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "当年专利申请数≥其中：发明专利；\r\n";
             }
             //32≥33（期末有效发明专利数≥其中：已被实施）
             if (companyRDData.PatentApplyOfInForcePeriod < companyRDData.PatentApplyOfBeenImplement)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "期末有效发明专利数≥其中：已被实施；\r\n";
             }
             //36≥37（新产品销售收入≥其中：出口）
             if (companyRDData.NewProductSaleRevenue < companyRDData.NewProductSaleOfOutlet)
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "新产品销售收入≥其中：出口；\r\n";
             }
             //研究开发费用合计 = 四、研究开发支出资金来源中各项的和
             if (companyRDData.RDExpensesTotal != (companyRDData.RDSpendSourceOfCompany + companyRDData.RDSpendSourceOfGovernment + companyRDData.RDSpendSourceOfBank + companyRDData.RDSpendSourceOfRiskCapital + companyRDData.RDSpendSourceOfOthers))
             {
-                isSummary = false;
+                isTips = true;
                 errorText += "研究开发费用合计 = 四、研究开发支出资金来源中各项的和；\r\n";
             }
             //107-2表中 研究开发人员合计*12需大于各项目人月合计
             if (companyRDData.RDPersonnelTotal * 12 < companyRDData.RDProjectStaffWorkMonth) {
-                isSummary = false;
+                isTips = true;
                 errorText += "107-2表中 研究开发人员合计*12需大于各项目人月合计；\r\n";
             }
 
@@ -500,21 +496,6 @@ namespace SumRDTools
                 isTips = true;
                 tipsText += "存在委托外部研究开发费用；\r\n";
             }
-            //人员费用支出/人月,低于<2200，不能高于5万（提示）
-            if (companyRDData.RDProjectStaffWorkMonth == 0)
-            {
-                isTips = true;
-                tipsText += "107-1表：项目人员实际工作时间为0；\r\n";
-            }
-            else {
-                decimal avgWagesPerMonth = companyRDData.RDExpensesPersonnelLabor * 1000 / companyRDData.RDProjectStaffWorkMonth;
-                if (avgWagesPerMonth < 2200 || avgWagesPerMonth > 50000)
-                {
-                    isTips = true;
-                    tipsText += "107-2表：人员人工费用÷107-1表：项目人员实际工作时间（人月）合计小于2200元或大于5万元；\r\n";
-                }
-            }
-
 
             //107-2申报加计扣除为0的提示出来
             if (companyRDData.PolicyImplementAddtionRDTaxFree == 0)
@@ -532,18 +513,25 @@ namespace SumRDTools
             //校验107-1 项目信息表中的信息
             //校验项目名称中不能包含“一种、技改、改造、年产、生产线、打样、翻样、产业化、示范、推广、CYH、JG、系统”字样
             String[] forbiddenWordsInProjectNameArg = { "土建", "产业园", "资产", "购买", "改良", "一种", "改造", "技改", "生产", "产业化", "打样", "翻样", "推广", "示范", "年产", "业务费", "运行补贴", "补贴", "工业性实验", "成果应用", "成果转化", "绿色制造", "节能", "产业", "国债付息", "创投", "创业投资", "科技特派员", "特派员", "技术服务", "技术创新服务", "智库", "科普", "科学技术普及", "运营维护", "升级", "科技交流", "智慧信访", "工作经费", "信息系统", "信息化平台", "办公平台", "平台建设", "管理平台", "管理系统", "监管平台", "智慧校园", "离退休", "业务活动", "奖励", "股改", "融资", "租赁", "科技管理", "备案", "评估", "服务经费", "项目监理", "打包贷款", "技术改造", "生产线", "CYH", "JG", "系统", "升级改造" };
-            foreach(ProjectRDData projectRDData in projectRDDatas) {
+
+            for (int i = projectRDDatas.Count-1; i >=0 ; i--) {
+                ProjectRDData projectRDData = projectRDDatas[i];
+
+                //是否移除项目（2024-4-17 姜昊科长让把107-1表中不符合要求的项目不统计在内）
+                Boolean isRemoveProject = false;
                 //项目名称规则校验
                 String forbiddenWords = "";
                 foreach (String forbiddenWordInProjectName in forbiddenWordsInProjectNameArg)
                 {
                     if (projectRDData.RDProjectName.Contains(forbiddenWordInProjectName)) {
                         isTips = true;
+                        isRemoveProject = true;
                         forbiddenWords += (forbiddenWordInProjectName+"、");
                     }
                 }
                 if (!string.IsNullOrEmpty(forbiddenWords)) {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目名称中包含\""+ forbiddenWords.Substring(0, forbiddenWords.Length - 1) + "\"字眼；\r\n");
                 }
 
@@ -551,6 +539,7 @@ namespace SumRDTools
                 String mentionEngCharStr = StringUtils.getContainsChar(projectRDData.RDProjectName);
                 if (mentionEngCharStr.Length > 0) {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目名称中包含\"" + mentionEngCharStr + "\"连续英文字母；\r\n");
                 }
 
@@ -558,24 +547,29 @@ namespace SumRDTools
                 //项目当年成果形式中如果包含了（2.新产品、新工艺等推广与示范活动或3.对已有产品、工艺等进行一般性改进）则进行提示
                 if (projectRDData.RDProjectCurrentResultsForm.StartsWith("2")) {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择2.新产品、新工艺等推广与示范活动；\r\n");
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("3"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择3.对已有产品、工艺等进行一般性改进；\r\n");
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("11"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择11.带有技术、工艺参数的图纸、技术标准、操作规范、技术论证、咨询评价；\r\n");
                 }
                 else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("12"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择12.自主研制的新产品原型或样机、样件、样品、配方、新装置；\r\n");
                 }
                 else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("13"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择13.自主开发的新技术或新工艺、新工法、新服务；\r\n");
                 }
 
@@ -583,21 +577,25 @@ namespace SumRDTools
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("5"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择5.提高劳动生产率；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("6"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择6.减少能源消耗或提高能源使用效率；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("7"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择7.节约原材料；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("8"))
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择8.减少环境污染；\r\n");
                 }
 
@@ -608,22 +606,25 @@ namespace SumRDTools
                 if (ProjectBeginDate.Year < 2000 || ProjectBeginDate.Year > 2045 || ProjectEndDate.Year < 2000 || ProjectEndDate.Year > 2045)
                 {
                     isTips = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报；\r\n");
                 }
                 else {
                     //如果项目周期跨年
-                    if (ProjectBeginDate.Year != 2023 || ProjectEndDate.Year != 2023)
+                    if (ProjectBeginDate.Year != DateTime.Now.Year || ProjectEndDate.Year != DateTime.Now.Year)
                     {
                         //如果“跨年项目需要填写主要进展阶段”为空（跨年项目需要填写跨年项目需要填写主要进展阶段）
                         if (string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
                         {
                             isTips = true;
+                            isRemoveProject = true;
                             tipsText += (projectRDData.RDProjectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段；\r\n");
                         }
                         else {
                             //跨年项目不要填写试生产阶段
                             if (projectRDData.AcrossYearRDProjectCurrentStage.Contains("试生产阶段")) {
                                 isTips = true;
+                                isRemoveProject = true;
                                 tipsText += (projectRDData.RDProjectName + "项目是跨年项目，不要选择试生产阶段；\r\n");
                             }
                         }
@@ -633,11 +634,41 @@ namespace SumRDTools
                     if (ProjectEndDate.Month - ProjectBeginDate.Month + (ProjectEndDate.Year - ProjectBeginDate.Year) * 12 +1< 4)
                     {
                         isTips = true;
+                        isRemoveProject = true;
                         tipsText += (projectRDData.RDProjectName + "项目的周期必须大于3个月；\r\n");
                     }
                 }
 
+                //如果107-1表中项目有不符合规则的，则从项目中删除，不纳入最后的研发费用合计
+                if (isRemoveProject)
+                {
+                    companyRDData.projectRDDatas.RemoveAt(i);
+                }
+                else {
+                    //如果不移除，说明数据合法
+                    //计算下人月合计最后赋值到companyRDData对象中，供后期计算人月工资使用
+                    companyRDData.RDProjectStaffWorkMonth += projectRDData.RDProjectStaffWorkMonth;
+                    //计算107-1表中所有项目的研发投入的合计，供后面107-2表中研发投入合计使用
+                    companyRDData.RD1071ExpensesTotal += projectRDData.RDProjectExpenses;
+                }
             }
+
+            //人员费用支出/人月,低于<2200，不能高于5万（提示）
+            if (companyRDData.RDProjectStaffWorkMonth == 0)
+            {
+                isTips = true;
+                tipsText += "107-1表：项目人员实际工作时间为0；\r\n";
+            }
+            else
+            {
+                decimal avgWagesPerMonth = companyRDData.RDExpensesPersonnelLabor * 1000 / companyRDData.RDProjectStaffWorkMonth;
+                if (avgWagesPerMonth < 2200 || avgWagesPerMonth > 50000)
+                {
+                    isTips = true;
+                    tipsText += "107-2表：人员人工费用÷107-1表：项目人员实际工作时间（人月）合计小于2200元或大于5万元；\r\n";
+                }
+            }
+
         }
 
         //汇总数据的和
@@ -659,7 +690,9 @@ namespace SumRDTools
 
                 //二、研究开发费用情况
                 // 研究开发费用合计（千元）
-                summaryCompanyRDData.RDExpensesTotal = summaryCompanyRDData.RDExpensesTotal + companyRDData.RDExpensesTotal;
+                //summaryCompanyRDData.RDExpensesTotal = summaryCompanyRDData.RDExpensesTotal + companyRDData.RDExpensesTotal;
+                // 2024-4-17 姜昊科长指示，研究开发费用合计使用所有和项目的研发费用和计算
+                summaryCompanyRDData.RDExpensesTotal = summaryCompanyRDData.RDExpensesTotal + companyRDData.RD1071ExpensesTotal;
                 //1.人员人工费用（千元）
                 summaryCompanyRDData.RDExpensesPersonnelLabor = summaryCompanyRDData.RDExpensesPersonnelLabor + companyRDData.RDExpensesPersonnelLabor;
                 //2.直接投入费用（千元）
@@ -770,7 +803,6 @@ namespace SumRDTools
                 // (二)企业办研究开发机构（境外）情况
                 //期末企业在境外设立的研究开发机构数(个)
                 summaryCompanyRDData.OverseasOrgCount += companyRDData.OverseasOrgCount;
-
 
                 //计算该县市区下所有企业所有项目人员实际工作时间
                 summaryCompanyRDData.RDProjectStaffWorkMonth += companyRDData.RDProjectStaffWorkMonth;

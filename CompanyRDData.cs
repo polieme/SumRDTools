@@ -145,5 +145,8 @@ namespace SumRDTools
         //牵扯到107-1表的合计数据
         //人月合计
         public decimal RDProjectStaffWorkMonth { get; set; }
+
+        //107-1表中“项目经费支出”合计
+        public decimal RD1071ExpensesTotal { get; set; }
     }
 }
