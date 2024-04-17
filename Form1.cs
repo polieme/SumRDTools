@@ -1,18 +1,12 @@
 ﻿using Sunny.UI;
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using NPOI.SS.Formula.Functions;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using Sunny.UI.Win32;
-using NPOI.Util;
-using Org.BouncyCastle.Asn1.Tsp;
 
 namespace SumRDTools
 {
@@ -253,7 +247,7 @@ namespace SumRDTools
                 companyRDData.projectRDDatas.Add(projectRDData);
 
 
-                //计算下人月合计最后赋值到companyRDData对象中，供后期计算人月工资试用
+                //计算下人月合计最后赋值到companyRDData对象中，供后期计算人月工资使用
                 companyRDData.RDProjectStaffWorkMonth += projectRDData.RDProjectStaffWorkMonth;
             }
         }
@@ -569,6 +563,20 @@ namespace SumRDTools
                 {
                     isTips = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择3.对已有产品、工艺等进行一般性改进；\r\n");
+                }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("11"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择11.带有技术、工艺参数的图纸、技术标准、操作规范、技术论证、咨询评价；\r\n");
+                }
+                else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("12"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择12.自主研制的新产品原型或样机、样件、样品、配方、新装置；\r\n");
+                }
+                else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("13"))
+                {
+                    isTips = true;
+                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择13.自主开发的新技术或新工艺、新工法、新服务；\r\n");
                 }
 
                 //技术经济指标选5.提高劳动生产率、6.减少能源消耗或提高能源使用效率、7.节约原材料、8.减少环境污染（提示）
