@@ -188,7 +188,9 @@ namespace SumRDTools
             exportSummaryDataIntoExcel(summaryCompanyRDData, summaryFilePath);
 
             //把项目人员实际工作时间输出到前台
-            logTextBox.AppendText("\r\n该县市区的项目人员实际工作时间合计为：" + summaryCompanyRDData.RDProjectStaffWorkMonth/12 + "人年\r\n");
+            logTextBox.AppendText("\r\n该县市区研发填报情况如下：\r\n");
+            logTextBox.AppendText("研究开发费用合计：" + summaryCompanyRDData.RDExpensesTotal/10 + "万元\r\n");
+            logTextBox.AppendText("研发人员全时当量合计：" + Math.Round(summaryCompanyRDData.RDProjectStaffWorkMonth / 12, 2) + "人年\r\n");
         }
 
         //获取107-1表中的数据并赋值到对象的列表中
