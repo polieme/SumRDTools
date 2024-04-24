@@ -549,29 +549,29 @@ namespace SumRDTools
                 //项目当年成果形式中如果包含了（2.新产品、新工艺等推广与示范活动或3.对已有产品、工艺等进行一般性改进）则进行提示
                 if (projectRDData.RDProjectCurrentResultsForm.StartsWith("2")) {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择2.新产品、新工艺等推广与示范活动；\r\n");
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("3"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择3.对已有产品、工艺等进行一般性改进；\r\n");
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("11"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择11.带有技术、工艺参数的图纸、技术标准、操作规范、技术论证、咨询评价；\r\n");
                 }
                 else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("12"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    // isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择12.自主研制的新产品原型或样机、样件、样品、配方、新装置；\r\n");
                 }
                 else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("13"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择13.自主开发的新技术或新工艺、新工法、新服务；\r\n");
                 }
 
@@ -579,25 +579,25 @@ namespace SumRDTools
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("5"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择5.提高劳动生产率；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("6"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择6.减少能源消耗或提高能源使用效率；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("7"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择7.节约原材料；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("8"))
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择8.减少环境污染；\r\n");
                 }
 
@@ -608,7 +608,7 @@ namespace SumRDTools
                 if (ProjectBeginDate.Year < 2000 || ProjectBeginDate.Year > 2045 || ProjectEndDate.Year < 2000 || ProjectEndDate.Year > 2045)
                 {
                     isTips = true;
-                    isRemoveProject = true;
+                    //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报；\r\n");
                 }
                 else {
@@ -619,14 +619,14 @@ namespace SumRDTools
                         if (string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
                         {
                             isTips = true;
-                            isRemoveProject = true;
+                            //isRemoveProject = true;
                             tipsText += (projectRDData.RDProjectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段；\r\n");
                         }
                         else {
                             //跨年项目不要填写试生产阶段
                             if (projectRDData.AcrossYearRDProjectCurrentStage.Contains("试生产阶段")) {
                                 isTips = true;
-                                isRemoveProject = true;
+                                //isRemoveProject = true;
                                 tipsText += (projectRDData.RDProjectName + "项目是跨年项目，不要选择试生产阶段；\r\n");
                             }
                         }
@@ -636,7 +636,7 @@ namespace SumRDTools
                     if (ProjectEndDate.Month - ProjectBeginDate.Month + (ProjectEndDate.Year - ProjectBeginDate.Year) * 12 +1< 4)
                     {
                         isTips = true;
-                        isRemoveProject = true;
+                        //isRemoveProject = true;
                         tipsText += (projectRDData.RDProjectName + "项目的周期必须大于3个月；\r\n");
                     }
                 }
