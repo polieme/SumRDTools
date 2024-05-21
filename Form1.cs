@@ -562,7 +562,9 @@ namespace SumRDTools
                     //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择11.带有技术、工艺参数的图纸、技术标准、操作规范、技术论证、咨询评价；\r\n");
                 }
-                else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("12"))
+                
+                //2024-5-21 15:31:23 接到姜昊科长通知，删掉科技成果形式中12和13的校验
+                /*else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("12"))
                 {
                     isTips = true;
                     // isRemoveProject = true;
@@ -573,7 +575,7 @@ namespace SumRDTools
                     isTips = true;
                     //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择13.自主开发的新技术或新工艺、新工法、新服务；\r\n");
-                }
+                }*/
 
                 //技术经济指标选5.提高劳动生产率、6.减少能源消耗或提高能源使用效率、7.节约原材料、8.减少环境污染（提示）
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("5"))
