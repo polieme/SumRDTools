@@ -189,7 +189,7 @@ namespace SumRDTools
 
             //把项目人员实际工作时间输出到前台
             logTextBox.AppendText("\r\n该县市区研发填报情况如下：\r\n");
-            logTextBox.AppendText("研究开发费用合计：" + summaryCompanyRDData.RDExpensesTotal/10 + "万元\r\n");
+            logTextBox.AppendText("研究开发费用合计：" + Math.Round(summaryCompanyRDData.RDExpensesTotal/100000, 4) + "亿元\r\n");
             logTextBox.AppendText("研发人员全时当量合计：" + Math.Round(summaryCompanyRDData.RDProjectStaffWorkMonth / 12, 2) + "人年\r\n");
         }
 
@@ -556,7 +556,9 @@ namespace SumRDTools
                     isTips = true;
                     //isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择3.对已有产品、工艺等进行一般性改进；\r\n");
-                }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("11"))
+                }
+                
+                /*else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("11"))
                 {
                     isTips = true;
                     //isRemoveProject = true;
@@ -644,17 +646,17 @@ namespace SumRDTools
                 }
 
                 //如果107-1表中项目有不符合规则的，则从项目中删除，不纳入最后的研发费用合计
-                if (isRemoveProject)
+/*                if (isRemoveProject)
                 {
                     companyRDData.projectRDDatas.RemoveAt(i);
                 }
-                else {
+                else {*/
                     //如果不移除，说明数据合法
                     //计算下人月合计最后赋值到companyRDData对象中，供后期计算人月工资使用
                     companyRDData.RDProjectStaffWorkMonth += projectRDData.RDProjectStaffWorkMonth;
                     //计算107-1表中所有项目的研发投入的合计，供后面107-2表中研发投入合计使用
                     companyRDData.RD1071ExpensesTotal += projectRDData.RDProjectExpenses;
-                }
+                //}
             }
 
             //人员费用支出/人月,低于<2200，不能高于5万（提示）
@@ -696,7 +698,7 @@ namespace SumRDTools
                 // 研究开发费用合计（千元）
                 //summaryCompanyRDData.RDExpensesTotal = summaryCompanyRDData.RDExpensesTotal + companyRDData.RDExpensesTotal;
                 // 2024-4-17 姜昊科长指示，研究开发费用合计使用所有和项目的研发费用和计算
-                summaryCompanyRDData.RDExpensesTotal = summaryCompanyRDData.RDExpensesTotal + companyRDData.RD1071ExpensesTotal;
+                summaryCompanyRDData.RDExpensesTotal = summaryCompanyRDData.RDExpensesTotal + companyRDData.RDExpensesTotal;
                 //1.人员人工费用（千元）
                 summaryCompanyRDData.RDExpensesPersonnelLabor = summaryCompanyRDData.RDExpensesPersonnelLabor + companyRDData.RDExpensesPersonnelLabor;
                 //2.直接投入费用（千元）

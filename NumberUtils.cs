@@ -1,4 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using NPOI.OpenXmlFormats.Spreadsheet;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SumRDTools
 {
@@ -33,10 +38,29 @@ namespace SumRDTools
         //正则获取到数字返回
         public static int getInt(string numberStr)
         {
+            int outNumber = 0;
+            //通过正则获取到表格中的数据
+            string pattern = @"(-?\d+)(\.\d+)?"; // 匹配一串连续的数字  
 
-            decimal decimalVal = getDecimal(numberStr);
+            Regex regex = new Regex(pattern);
+            System.Text.RegularExpressions.Match match = regex.Match(numberStr);
 
-            return int.Parse(decimalVal.ToString("0"));
+            if (match.Success)
+            {
+                if (int.TryParse(numberStr, out outNumber))
+                {
+                    Console.WriteLine(outNumber); // 输出: 123
+                }
+                else
+                {
+                    Console.WriteLine("转换失败");
+                }
+                return outNumber;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
