@@ -34,8 +34,8 @@
             this.chooseFolderBtn = new Sunny.UI.UIButton();
             this.summaryBtn = new Sunny.UI.UIButton();
             this.logTextBox = new Sunny.UI.UITextBox();
-            this.errorLogTextBox = new Sunny.UI.UITextBox();
             this.uiStyleManager = new Sunny.UI.UIStyleManager(this.components);
+            this.errorLogRichTextBox = new Sunny.UI.UIRichTextBox();
             this.SuspendLayout();
             // 
             // folderPathText
@@ -136,33 +136,6 @@
             this.logTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.logTextBox.Watermark = "";
             // 
-            // errorLogTextBox
-            // 
-            this.errorLogTextBox.ButtonFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
-            this.errorLogTextBox.ButtonFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(163)))), ((int)(((byte)(163)))));
-            this.errorLogTextBox.ButtonFillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(112)))), ((int)(((byte)(112)))));
-            this.errorLogTextBox.ButtonRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
-            this.errorLogTextBox.ButtonRectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(163)))), ((int)(((byte)(163)))));
-            this.errorLogTextBox.ButtonRectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(112)))), ((int)(((byte)(112)))));
-            this.errorLogTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.errorLogTextBox.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.errorLogTextBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.errorLogTextBox.Location = new System.Drawing.Point(362, 102);
-            this.errorLogTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.errorLogTextBox.MinimumSize = new System.Drawing.Size(1, 16);
-            this.errorLogTextBox.Multiline = true;
-            this.errorLogTextBox.Name = "errorLogTextBox";
-            this.errorLogTextBox.Padding = new System.Windows.Forms.Padding(5);
-            this.errorLogTextBox.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
-            this.errorLogTextBox.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
-            this.errorLogTextBox.ShowScrollBar = true;
-            this.errorLogTextBox.ShowText = false;
-            this.errorLogTextBox.Size = new System.Drawing.Size(804, 517);
-            this.errorLogTextBox.Style = Sunny.UI.UIStyle.Gray;
-            this.errorLogTextBox.TabIndex = 4;
-            this.errorLogTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.errorLogTextBox.Watermark = "";
-            // 
             // uiStyleManager
             // 
             this.uiStyleManager.DPIScale = true;
@@ -170,12 +143,30 @@
             this.uiStyleManager.GlobalFontName = "微软雅黑";
             this.uiStyleManager.Style = Sunny.UI.UIStyle.Gray;
             // 
+            // errorLogRichTextBox
+            // 
+            this.errorLogRichTextBox.FillColor = System.Drawing.Color.White;
+            this.errorLogRichTextBox.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.errorLogRichTextBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.errorLogRichTextBox.Location = new System.Drawing.Point(370, 102);
+            this.errorLogRichTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.errorLogRichTextBox.MinimumSize = new System.Drawing.Size(1, 1);
+            this.errorLogRichTextBox.Name = "errorLogRichTextBox";
+            this.errorLogRichTextBox.Padding = new System.Windows.Forms.Padding(2);
+            this.errorLogRichTextBox.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.errorLogRichTextBox.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.errorLogRichTextBox.ShowText = false;
+            this.errorLogRichTextBox.Size = new System.Drawing.Size(796, 517);
+            this.errorLogRichTextBox.Style = Sunny.UI.UIStyle.Gray;
+            this.errorLogRichTextBox.TabIndex = 3;
+            this.errorLogRichTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1185, 641);
             this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(163)))), ((int)(((byte)(163)))));
-            this.Controls.Add(this.errorLogTextBox);
+            this.Controls.Add(this.errorLogRichTextBox);
             this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.summaryBtn);
             this.Controls.Add(this.chooseFolderBtn);
@@ -198,8 +189,8 @@
         private Sunny.UI.UIButton chooseFolderBtn;
         private Sunny.UI.UIButton summaryBtn;
         private Sunny.UI.UITextBox logTextBox;
-        private Sunny.UI.UITextBox errorLogTextBox;
         private Sunny.UI.UIStyleManager uiStyleManager;
+        private Sunny.UI.UIRichTextBox errorLogRichTextBox;
     }
 }
 

@@ -7,6 +7,8 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Collections.Generic;
+using System.Drawing;
+using static NPOI.HSSF.Util.HSSFColor;
 
 namespace SumRDTools
 {
@@ -40,7 +42,7 @@ namespace SumRDTools
         {
             //清空日志，以便打印新的
             this.logTextBox.Clear();
-            this.errorLogTextBox.Clear();
+            this.errorLogRichTextBox.Clear();
 
             String filesPath = this.folderPathText.Text;
             if (String.IsNullOrEmpty(filesPath))
@@ -127,7 +129,7 @@ namespace SumRDTools
                     }
                     else
                     {
-                        errorLogTextBox.AppendText("不支持的文件：" + fsInfo.Name + "\r\n");
+                        errorLogRichTextBox.AppendText("不支持的文件：" + fsInfo.Name + "\r\n");
                         continue;
                     }
 
@@ -155,8 +157,12 @@ namespace SumRDTools
                         companyRDDatas.Add(companyRDData);
                     }
                     else {
-                        companyRDDatas.Add(companyRDData);
-                        errorLogTextBox.AppendText("错误提示：《" + fsInfo.Name+"》" + "中违反了以下规则：\r\n" + errorText+ "\r\n");
+                        //设置错误类信息文本变色
+                        errorLogRichTextBox.SelectionStart = errorLogRichTextBox.Text.Length;
+                        errorLogRichTextBox.SelectionLength = 1;
+                        errorLogRichTextBox.SelectionBackColor = Color.FromName("Red");
+
+                        errorLogRichTextBox.AppendText("错误提示：《" + fsInfo.Name+"》" + "中违反了以下规则：\r\n" + errorText+ "\r\n");
                         //拷贝一份文件到异常数据文件夹
                         /*if (File.Exists(errorFilePath + fsInfo.Name))
                         {
@@ -170,13 +176,13 @@ namespace SumRDTools
                     //常规提示性信息打印
                     if (isTips) {
                         //提醒不剔除数据的
-                        errorLogTextBox.AppendText("建议完善以下方面：《" + fsInfo.Name + "》" + "中违反了以下规则：\r\n" + tipsText + "\r\n\r\n");
+                        errorLogRichTextBox.AppendText("建议完善以下方面：《" + fsInfo.Name + "》" + "中违反了以下规则：\r\n" + tipsText + "\r\n\r\n");
                     }
 
                     fs.Close();
                 }
                 else { 
-                    errorLogTextBox.AppendText("不支持的文件：" + fsInfo.Name + "\r\n");
+                    errorLogRichTextBox.AppendText("不支持的文件：" + fsInfo.Name + "\r\n");
                 }
             }
 
@@ -189,8 +195,10 @@ namespace SumRDTools
 
             //把项目人员实际工作时间输出到前台
             logTextBox.AppendText("\r\n该县市区研发填报情况如下：\r\n");
-            logTextBox.AppendText("研究开发费用合计：" + Math.Round(summaryCompanyRDData.RDExpensesTotal/100000, 4) + "亿元\r\n");
+            logTextBox.AppendText("研究开发费用合计：" + Math.Round(summaryCompanyRDData.RD1071ExpensesTotal/ 100000, 4) + "亿元\r\n");
             logTextBox.AppendText("研发人员全时当量合计：" + Math.Round(summaryCompanyRDData.RDProjectStaffWorkMonth / 12, 2) + "人年\r\n");
+            logTextBox.AppendText("符合填报要求企业数量合计：" + companyRDDatas.Count + "家\r\n");
+
         }
 
         //获取107-1表中的数据并赋值到对象的列表中
@@ -810,6 +818,8 @@ namespace SumRDTools
 
                 //计算该县市区下所有企业所有项目人员实际工作时间
                 summaryCompanyRDData.RDProjectStaffWorkMonth += companyRDData.RDProjectStaffWorkMonth;
+                //计算该县市区下所有企业所有项目的研发投入额
+                summaryCompanyRDData.RD1071ExpensesTotal += companyRDData.RD1071ExpensesTotal;
             }
         }
 
