@@ -26,15 +26,29 @@ namespace SumRDTools
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            //如果配置文件中有路径，直接读取路径赋值到路径文件框中
+            String defaultOpenPath = ConfigFileUtil.getConfigParam("DEFALUT_PARAM", "FILE_PATH");
+            if (!String.IsNullOrEmpty(defaultOpenPath))
+            {
+                this.folderPathText.Text = defaultOpenPath;
+            }
         }
 
         //选择文件夹目录
         private void chooseFolderBtn_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-            folderBrowserDialog.ShowDialog();
-            this.folderPathText.Text = folderBrowserDialog.SelectedPath;
+            String defaultOpenPath = ConfigFileUtil.getConfigParam("DEFALUT_PARAM", "FILE_PATH");
+            if (!String.IsNullOrEmpty(defaultOpenPath)) {
+                folderBrowserDialog.SelectedPath = defaultOpenPath;
+            }
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK) { 
+                this.folderPathText.Text = folderBrowserDialog.SelectedPath;
+                //如果路径不一致的时候，更新到配置文件
+                if (folderBrowserDialog.SelectedPath != defaultOpenPath) {
+                    ConfigFileUtil.SetValue("DEFALUT_PARAM", "FILE_PATH", folderBrowserDialog.SelectedPath);
+                }
+            }
         }
 
         ////获取指定目录下的Excel，然后汇总对应的数据
