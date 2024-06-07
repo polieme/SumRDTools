@@ -386,102 +386,102 @@ namespace SumRDTools
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelManageAndService)
             {
                 isTips = true;
-                errorText += "研究开发人员合计≥其中：管理和服务人员；\r\n";
+                tipsText += "研究开发人员合计≥其中：管理和服务人员；\r\n";
             }
             //1≥3（研究开发人员合计≥其中：女性）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelFemale)
             {
                 isTips = true;
-                errorText += "研究开发人员合计≥其中：女性；\r\n";
+                tipsText += "研究开发人员合计≥其中：女性；\r\n";
             }
             //1≥4（研究开发人员合计≥其中：全职人员）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelFullTimeStaff)
             {
                 isTips = true;
-                errorText += "研究开发人员合计≥其中：全职人员；\r\n";
+                tipsText += "研究开发人员合计≥其中：全职人员；\r\n";
             }
             //1≥5≥24+25（研究开发人员合计≥其中：本科毕业及以上人员≥其中：博士毕业+其中：硕士毕业）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelBachelorAndAbove || companyRDData.RDPersonnelBachelorAndAbove < (companyRDData.CompanyRunOrgRDDoctor + companyRDData.CompanyRunOrgRDMaster))
             {
                 isTips = true;
-                errorText += "研究开发人员合计≥其中：本科毕业及以上人员≥其中：博士毕业+其中：硕士毕业；\r\n";
+                tipsText += "研究开发人员合计≥其中：本科毕业及以上人员≥其中：博士毕业+其中：硕士毕业；\r\n";
             }
             //1≥6（研究开发人员合计≥其中：外聘人员）
             if (companyRDData.RDPersonnelTotal < companyRDData.RDPersonnelExternalStaff)
             {
                 isTips = true;
-                errorText += "研究开发人员合计≥其中：外聘人员；\r\n";
+                tipsText += "研究开发人员合计≥其中：外聘人员；\r\n";
             }
             //1≥23≥24+25（研究开发人员合计≥机构研究开发人员≥其中：博士毕业+其中：硕士毕业）
             if (companyRDData.RDPersonnelTotal < companyRDData.CompanyRunOrgRDPersonnel || companyRDData.CompanyRunOrgRDPersonnel < (companyRDData.CompanyRunOrgRDDoctor + companyRDData.CompanyRunOrgRDMaster))
             {
                 isTips = true;
-                errorText += "研究开发人员合计≥机构研究开发人员≥其中：博士毕业+其中：硕士毕业；\r\n";
+                tipsText += "研究开发人员合计≥机构研究开发人员≥其中：博士毕业+其中：硕士毕业；\r\n";
             }
             //7=8+9+10+11+12+13+14+19≥26（研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用）
             if (companyRDData.RDExpensesTotal != (companyRDData.RDExpensesPersonnelLabor + companyRDData.RDExpensesDirectInput + companyRDData.RDExpensesDepreciationAndLongTerm + companyRDData.RDExpensesIntangibleAssets + companyRDData.RDExpensesDesign + companyRDData.RDExpensesEquipmentDebug + companyRDData.RDExpensesEntrustOutsourcedRD + companyRDData.RDExpensesOthers) || companyRDData.RDExpensesTotal < companyRDData.CompanyRunOrgRDExpenses)
             {
                 isTips = true;
-                errorText += "研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用；\r\n";
+                tipsText += "研究开发费用合计=人员人工费用+直接投入费用+折旧费用与长期待摊费用+无形资产摊销费用+设计费用+装备调试费用与试验费用+委托外部研究开发费用+其他费用≥机构研究开发费用；\r\n";
             }
             //若1>0，则8>0（若研究开发人员合计>0，则人员人工费用>0）
             if (companyRDData.RDPersonnelTotal > 0 && companyRDData.RDExpensesPersonnelLabor == 0)
             {
                 isTips = true;
-                errorText += "若研究开发人员合计>0，则人员人工费用>0；\r\n";
+                tipsText += "若研究开发人员合计>0，则人员人工费用>0；\r\n";
             }
             //若8>0，则1>0（若人员人工费用>0，则研究开发人员合计>0）
             if (companyRDData.RDExpensesPersonnelLabor > 0 && companyRDData.RDPersonnelTotal == 0)
             {
                 isTips = true;
-                errorText += "若人员人工费用>0，则研究开发人员合计>0；\r\n";
+                tipsText += "若人员人工费用>0，则研究开发人员合计>0；\r\n";
             }
             //14=15+16+17+18（委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构）
             if (companyRDData.RDExpensesEntrustOutsourcedRD != (companyRDData.RDExpensesEntrustDomesticResearch + companyRDData.RDExpensesEntrustDomesticCollege + companyRDData.RDExpensesEntrustDomesticCompany + companyRDData.RDExpensesEntrustOverseasInstitutions))
             {
                 isTips = true;
-                errorText += "委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构；\r\n";
+                tipsText += "委托外部研究开发费用=①委托境内研究机构+②委托境内高等学校+③委托境内企业+④委托境外机构；\r\n";
             }
             //20≥21（当年形成用于研究开发的固定资产≥其中：仪器和设备）
             if (companyRDData.RDAssetsYear < companyRDData.RDAssetsYearEquipment)
             {
                 isTips = true;
-                errorText += "当年形成用于研究开发的固定资产≥其中：仪器和设备；\r\n";
+                tipsText += "当年形成用于研究开发的固定资产≥其中：仪器和设备；\r\n";
             }
             //若27>0，则22>0（若期末仪器和设备原价>0，则期末机构数>0）
             if (companyRDData.CompanyRunOrgEquipmentValueEndOfPeriod > 0 && companyRDData.CompanyRunOrgCountEndOfPeriod == 0)
             {
                 isTips = true;
-                errorText += "若期末仪器和设备原价>0，则期末机构数>0；\r\n";
+                tipsText += "若期末仪器和设备原价>0，则期末机构数>0；\r\n";
             }
             //29≥30（当年专利申请数≥其中：发明专利）
             if (companyRDData.PatentApplyOfCurrentYear < companyRDData.PatentApplyOfInvention)
             {
                 isTips = true;
-                errorText += "当年专利申请数≥其中：发明专利；\r\n";
+                tipsText += "当年专利申请数≥其中：发明专利；\r\n";
             }
             //32≥33（期末有效发明专利数≥其中：已被实施）
             if (companyRDData.PatentApplyOfInForcePeriod < companyRDData.PatentApplyOfBeenImplement)
             {
                 isTips = true;
-                errorText += "期末有效发明专利数≥其中：已被实施；\r\n";
+                tipsText += "期末有效发明专利数≥其中：已被实施；\r\n";
             }
             //36≥37（新产品销售收入≥其中：出口）
             if (companyRDData.NewProductSaleRevenue < companyRDData.NewProductSaleOfOutlet)
             {
                 isTips = true;
-                errorText += "新产品销售收入≥其中：出口；\r\n";
+                tipsText += "新产品销售收入≥其中：出口；\r\n";
             }
             //研究开发费用合计 = 四、研究开发支出资金来源中各项的和
             if (companyRDData.RDExpensesTotal != (companyRDData.RDSpendSourceOfCompany + companyRDData.RDSpendSourceOfGovernment + companyRDData.RDSpendSourceOfBank + companyRDData.RDSpendSourceOfRiskCapital + companyRDData.RDSpendSourceOfOthers))
             {
                 isTips = true;
-                errorText += "研究开发费用合计 = 四、研究开发支出资金来源中各项的和；\r\n";
+                tipsText += "研究开发费用合计 != 四、研究开发支出资金来源中各项的和；\r\n";
             }
             //107-2表中 研究开发人员合计*12需大于各项目人月合计
             if (companyRDData.RDPersonnelTotal * 12 < companyRDData.RDProjectStaffWorkMonth) {
                 isTips = true;
-                errorText += "107-2表中 研究开发人员合计*12需大于各项目人月合计；\r\n";
+                tipsText += "107-2表中 研究开发人员合计*12需大于各项目人月合计；\r\n";
             }
 
             //下面这些是只做提醒的的条件
@@ -525,8 +525,6 @@ namespace SumRDTools
                 foreach (String forbiddenWordInProjectName in forbiddenWordsInProjectNameArg)
                 {
                     if (projectRDData.RDProjectName.Contains(forbiddenWordInProjectName)) {
-                        isTips = true;
-                        isRemoveProject = true;
                         forbiddenWords += (forbiddenWordInProjectName+"、");
                     }
                 }
@@ -563,7 +561,7 @@ namespace SumRDTools
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("14"))
                 {
                     isTips = true;
-                    // isRemoveProject = true;
+                    isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择14.其他形式，该项目不计入研发统计数据；\r\n");
                 }
 
@@ -669,6 +667,12 @@ namespace SumRDTools
                 }
             }
 
+            //如果这家企业一个合法的项目都没有，直接把这家企业剔除掉
+            if (companyRDData.projectRDDatas.Count == 0)
+            {
+                isSummary = false;
+                errorText = "所有项目都不满足统计要求，该企业数据将不被统计在内！";
+            }
         }
 
         //汇总数据的和
