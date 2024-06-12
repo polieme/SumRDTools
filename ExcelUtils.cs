@@ -13,7 +13,6 @@ namespace SumRDTools
         public static string getCellValueByCellType(ISheet sheet, int rowIndex, int colIndex)
         {
 
-            Console.WriteLine("当前单元格的地址："+rowIndex+":"+colIndex);
             //获取到单元格
             ICell cell = sheet.GetRow(rowIndex).GetCell(colIndex);
             // 判断单元格是否存在  

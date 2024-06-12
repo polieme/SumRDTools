@@ -49,7 +49,6 @@ namespace SumRDTools
             {
                 if (int.TryParse(numberStr, out outNumber))
                 {
-                    Console.WriteLine(outNumber); // 输出: 123
                 }
                 else
                 {

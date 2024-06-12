@@ -212,7 +212,6 @@ namespace SumRDTools
             logTextBox.AppendText("研究开发费用合计：" + Math.Round(summaryCompanyRDData.RD1071ExpensesTotal/ 100000, 4) + "亿元\r\n");
             logTextBox.AppendText("研发人员全时当量合计：" + Math.Round(summaryCompanyRDData.RDProjectStaffWorkMonth / 12, 2) + "人年\r\n");
             logTextBox.AppendText("符合填报要求企业数量合计：" + companyRDDatas.Count + "家\r\n");
-
         }
 
         //获取107-1表中的数据并赋值到对象的列表中
@@ -672,6 +671,7 @@ namespace SumRDTools
                     companyRDData.RD1071ExpensesTotal += projectRDData.RDProjectExpenses;
                 }
             }
+            Console.WriteLine("研发人员全时当量："+companyRDData.RDProjectStaffWorkMonth);
 
             //人员费用支出/人月,低于<2200，不能高于5万（提示）
             if (companyRDData.RDProjectStaffWorkMonth == 0)
