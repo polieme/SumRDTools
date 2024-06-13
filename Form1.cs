@@ -557,7 +557,7 @@ namespace SumRDTools
 
                 //校验项目名称中包含连续字母的提示
                 String mentionEngCharStr = StringUtils.getContainsChar(projectRDData.RDProjectName);
-                if (mentionEngCharStr.Length > 0) {
+                if (mentionEngCharStr.Length >= 3) {
                     isTips = true;
                     isRemoveProject = true;
                     tipsText += (projectRDData.RDProjectName + "项目名称中包含\"" + mentionEngCharStr + "\"连续英文字母，该项目不计入研发统计数据；\r\n");
