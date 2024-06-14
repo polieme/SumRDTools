@@ -618,7 +618,7 @@ namespace SumRDTools
                     tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择9.其他，该项目不计入研发统计数据；\r\n");
                 }
 
-                //项目起始日期&项目完成日期
+              /*  //项目起始日期&项目完成日期
                 DateTime ProjectBeginDate = DateUtils.formatDatetime(projectRDData.RDProjectBeginDate);
                 DateTime ProjectEndDate = DateUtils.formatDatetime(projectRDData.RDProjectEndDate);
                 //如果是项目早于2000年或者项目晚于2045年，则认为是解析日期的时候解析出错了
@@ -656,7 +656,7 @@ namespace SumRDTools
                         //isRemoveProject = true;
                         tipsText += (projectRDData.RDProjectName + "项目的周期必须大于3个月；\r\n");
                     }
-                }
+                }*/
 
                 //如果107-1表中项目有不符合规则的，则从项目中删除，不纳入最后的研发费用合计
                 if (isRemoveProject)
