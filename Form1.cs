@@ -216,6 +216,7 @@ namespace SumRDTools
 
         //获取107-1表中的数据并赋值到对象的列表中
         private void Get1071SheetData(CompanyRDData companyRDData, ISheet RDProjectSheet) {
+            Console.WriteLine("开始读取107-1数据");
 
             /*  
             基本思路：1、从6行开始读取数据
