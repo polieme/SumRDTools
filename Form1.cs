@@ -9,6 +9,9 @@ using NPOI.XSSF.UserModel;
 using System.Collections.Generic;
 using System.Drawing;
 using static NPOI.HSSF.Util.HSSFColor;
+using System.Data.SQLite;
+using System.Data;
+using static Org.BouncyCastle.Crypto.Digests.SkeinEngine;
 
 namespace SumRDTools
 {
@@ -104,7 +107,6 @@ namespace SumRDTools
                 //FileOptUtils.DeleteAllFiles(errorFilePath);
             }
 
-
             FileSystemInfo[] fsInfos = directoryInfo.GetFiles();
             //定义对象存储Excel中的数据
             List< CompanyRDData > companyRDDatas = new List< CompanyRDData >();
@@ -158,12 +160,16 @@ namespace SumRDTools
                     //开始获取第二个Sheet表（107-2：企业研发活动相关情况表）的数据
                     Get1072SheetData(companyRDData, RDAcitivitySheet);
 
+                    //查询数据库获取下目前库中已有的项目，用于校验项目名称与往年项目名称的重合度
+                    string queryHistoryProjectInfoSql = "SELECT Company_Name,Project_Name,Project_Year FROM Company_History_ProjectName";
+                    DataTable historyProjectInfoDataTable = DBHelper.ExecuteQuery(queryHistoryProjectInfoSql);
+
                     //逻辑判断
                     /**
                       思路：系统分为两个等级：1、提示等级（仅提示，但输入会纳入汇总中）；2、错误等级（显示错误信息，不会纳入系统）
                       因此这两部分的提示信息需要拆开，因为有些填报的数据既触发了错误等级又触发提示等级，这些得分开
                      * */
-                    LogicCheck(companyRDData, ref isSummary, ref errorText, ref isTips, ref tipsText);
+                    LogicCheck(companyRDData, historyProjectInfoDataTable, ref isSummary, ref errorText, ref isTips, ref tipsText);
 
                     //可以合并计算的数据
                     if (isSummary)
@@ -399,7 +405,7 @@ namespace SumRDTools
         }
 
         //逻辑校验
-        private void LogicCheck(CompanyRDData companyRDData, ref Boolean isSummary, ref String errorText,ref Boolean isTips, ref String tipsText) {
+        private void LogicCheck(CompanyRDData companyRDData, DataTable historyProjectInfoDataTable, ref Boolean isSummary, ref String errorText,ref Boolean isTips, ref String tipsText) {
 
             //107-2表 企业研究开发活动及相关情况
             List<ProjectRDData> projectRDDatas = companyRDData.projectRDDatas;
@@ -543,48 +549,53 @@ namespace SumRDTools
                 //是否移除项目（2024-4-17 姜昊科长让把107-1表中不符合要求的项目不统计在内）
                 Boolean isRemoveProject = false;
                 //项目名称规则校验
+                String projectName = projectRDData.RDProjectName;
                 String forbiddenWords = "";
                 foreach (String forbiddenWordInProjectName in forbiddenWordsInProjectNameArg)
                 {
-                    if (projectRDData.RDProjectName.Contains(forbiddenWordInProjectName)) {
+                    if (projectName.Contains(forbiddenWordInProjectName)) {
                         forbiddenWords += (forbiddenWordInProjectName+"、");
                     }
                 }
                 if (!string.IsNullOrEmpty(forbiddenWords)) {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目名称中包含\""+ forbiddenWords.Substring(0, forbiddenWords.Length - 1) + "\"字眼，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目名称中包含\""+ forbiddenWords.Substring(0, forbiddenWords.Length - 1) + "\"字眼，该项目不计入研发统计数据；\r\n");
                 }
 
                 //校验项目名称中包含连续字母的提示
-                String mentionEngCharStr = StringUtils.getContainsChar(projectRDData.RDProjectName);
+                String mentionEngCharStr = StringUtils.getContainsChar(projectName);
                 if (mentionEngCharStr.Length >= 3) {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目名称中包含\"" + mentionEngCharStr + "\"连续英文字母，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目名称中包含\"" + mentionEngCharStr + "\"连续英文字母，该项目不计入研发统计数据；\r\n");
                 }
+
+                //校验项目名称是否与往年的项目存在高重合度
+
+
 
 
                 //项目当年成果形式中如果包含了（2.新产品、新工艺等推广与示范活动或3.对已有产品、工艺等进行一般性改进）则进行提示
                 if (projectRDData.RDProjectCurrentResultsForm.StartsWith("2")) {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择2.新产品、新工艺等推广与示范活动，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目当年成果形式不能选择2.新产品、新工艺等推广与示范活动，该项目不计入研发统计数据；\r\n");
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("3"))
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择3.对已有产品、工艺等进行一般性改进，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目当年成果形式不能选择3.对已有产品、工艺等进行一般性改进，该项目不计入研发统计数据；\r\n");
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("11"))
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择11.带有技术、工艺参数的图纸、技术标准、操作规范、技术论证、咨询评价，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目当年成果形式不能选择11.带有技术、工艺参数的图纸、技术标准、操作规范、技术论证、咨询评价，该项目不计入研发统计数据；\r\n");
                 }else if (projectRDData.RDProjectCurrentResultsForm.StartsWith("14"))
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目当年成果形式不能选择14.其他形式，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目当年成果形式不能选择14.其他形式，该项目不计入研发统计数据；\r\n");
                 }
 
                 //技术经济指标选5.提高劳动生产率、6.减少能源消耗或提高能源使用效率、7.节约原材料、8.减少环境污染（提示）
@@ -592,72 +603,72 @@ namespace SumRDTools
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择5.提高劳动生产率，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目技术经济目标不能选择5.提高劳动生产率，该项目不计入研发统计数据；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("6"))
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择6.减少能源消耗或提高能源使用效率，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目技术经济目标不能选择6.减少能源消耗或提高能源使用效率，该项目不计入研发统计数据；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("7"))
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择7.节约原材料，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目技术经济目标不能选择7.节约原材料，该项目不计入研发统计数据；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("8"))
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择8.减少环境污染，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目技术经济目标不能选择8.减少环境污染，该项目不计入研发统计数据；\r\n");
                 }
                 if (projectRDData.RDProjectEconomicTarget.StartsWith("9"))
                 {
                     isTips = true;
                     isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目技术经济目标不能选择9.其他，该项目不计入研发统计数据；\r\n");
+                    tipsText += (projectName + "项目技术经济目标不能选择9.其他，该项目不计入研发统计数据；\r\n");
                 }
 
-              /*  //项目起始日期&项目完成日期
-                DateTime ProjectBeginDate = DateUtils.formatDatetime(projectRDData.RDProjectBeginDate);
-                DateTime ProjectEndDate = DateUtils.formatDatetime(projectRDData.RDProjectEndDate);
-                //如果是项目早于2000年或者项目晚于2045年，则认为是解析日期的时候解析出错了
-                if (ProjectBeginDate.Year < 2000 || ProjectBeginDate.Year > 2045 || ProjectEndDate.Year < 2000 || ProjectEndDate.Year > 2045)
-                {
-                    isTips = true;
-                    isRemoveProject = true;
-                    tipsText += (projectRDData.RDProjectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报，该项目不计入研发统计数据；\r\n");
-                }
-                else {
-                    //如果项目周期跨年
-                    if (ProjectBeginDate.Year != DateTime.Now.Year || ProjectEndDate.Year != DateTime.Now.Year)
-                    {
-                        //如果“跨年项目需要填写主要进展阶段”为空（跨年项目需要填写跨年项目需要填写主要进展阶段）
-                        if (string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
-                        {
-                            isTips = true;
-                            isRemoveProject = true;
-                            tipsText += (projectRDData.RDProjectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段，该项目不计入研发统计数据；\r\n");
-                        }
-                        else {
-                            //如果不是选择1.研究阶段和2.小试阶段开头的都需要排除
-                            if (!(projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("1") || projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("2"))) {
-                                isTips = true;
-                                isRemoveProject = true;
-                                tipsText += (projectRDData.RDProjectName + "项目是跨年项目，跨年项目当年所处主要进展阶段选择了非“1.研究阶段和2.小试阶段”，该项目不计入研发统计数据；\r\n");
-                            }
-                        }
-                    }
+                /*  //项目起始日期&项目完成日期
+                  DateTime ProjectBeginDate = DateUtils.formatDatetime(projectRDData.RDProjectBeginDate);
+                  DateTime ProjectEndDate = DateUtils.formatDatetime(projectRDData.RDProjectEndDate);
+                  //如果是项目早于2000年或者项目晚于2045年，则认为是解析日期的时候解析出错了
+                  if (ProjectBeginDate.Year < 2000 || ProjectBeginDate.Year > 2045 || ProjectEndDate.Year < 2000 || ProjectEndDate.Year > 2045)
+                  {
+                      isTips = true;
+                      isRemoveProject = true;
+                      tipsText += (projectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报，该项目不计入研发统计数据；\r\n");
+                  }
+                  else {
+                      //如果项目周期跨年
+                      if (ProjectBeginDate.Year != DateTime.Now.Year || ProjectEndDate.Year != DateTime.Now.Year)
+                      {
+                          //如果“跨年项目需要填写主要进展阶段”为空（跨年项目需要填写跨年项目需要填写主要进展阶段）
+                          if (string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
+                          {
+                              isTips = true;
+                              isRemoveProject = true;
+                              tipsText += (projectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段，该项目不计入研发统计数据；\r\n");
+                          }
+                          else {
+                              //如果不是选择1.研究阶段和2.小试阶段开头的都需要排除
+                              if (!(projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("1") || projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("2"))) {
+                                  isTips = true;
+                                  isRemoveProject = true;
+                                  tipsText += (projectName + "项目是跨年项目，跨年项目当年所处主要进展阶段选择了非“1.研究阶段和2.小试阶段”，该项目不计入研发统计数据；\r\n");
+                              }
+                          }
+                      }
 
-                    //项目周期要大约等于3个月
-                    if (ProjectEndDate.Month - ProjectBeginDate.Month + (ProjectEndDate.Year - ProjectBeginDate.Year) * 12 +1< 4)
-                    {
-                        isTips = true;
-                        //isRemoveProject = true;
-                        tipsText += (projectRDData.RDProjectName + "项目的周期必须大于3个月；\r\n");
-                    }
-                }*/
+                      //项目周期要大约等于3个月
+                      if (ProjectEndDate.Month - ProjectBeginDate.Month + (ProjectEndDate.Year - ProjectBeginDate.Year) * 12 +1< 4)
+                      {
+                          isTips = true;
+                          //isRemoveProject = true;
+                          tipsText += (projectName + "项目的周期必须大于3个月；\r\n");
+                      }
+                  }*/
 
                 //如果107-1表中项目有不符合规则的，则从项目中删除，不纳入最后的研发费用合计
                 if (isRemoveProject)

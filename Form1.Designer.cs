@@ -164,7 +164,7 @@
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1185, 641);
+            this.ClientSize = new System.Drawing.Size(1179, 637);
             this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(163)))), ((int)(((byte)(163)))));
             this.Controls.Add(this.errorLogRichTextBox);
             this.Controls.Add(this.logTextBox);
