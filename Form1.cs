@@ -12,6 +12,7 @@ using static NPOI.HSSF.Util.HSSFColor;
 using System.Data.SQLite;
 using System.Data;
 using static Org.BouncyCastle.Crypto.Digests.SkeinEngine;
+using SumRDTools.utils;
 
 namespace SumRDTools
 {
@@ -572,9 +573,24 @@ namespace SumRDTools
                 }
 
                 //校验项目名称是否与往年的项目存在高重合度
+                for (int y = 0; y < historyProjectInfoDataTable.Rows.Count; y++)
+                {
+                    string hisProjectCompanyName = historyProjectInfoDataTable.Rows[y]["Company_Name"].ToString();
+                    string hisProjectProjectName = historyProjectInfoDataTable.Rows[y]["Project_Name"].ToString();
+                    string hisProjectProjectYear = historyProjectInfoDataTable.Rows[y]["Project_Year"].ToString();
 
+                    //计算综合相似度
+                    double combinedSim = ProjectNameSimilarityChecker.CalculateCombinedSimilarity(hisProjectProjectName, projectName);
+                    Console.WriteLine(combinedSim);
 
-
+                    if (combinedSim.CompareTo(0.5)>0) {
+                        //如果项目的相似度超过50%，移除项目并提示
+                        isTips = true;
+                        isRemoveProject = true;
+                        tipsText += ("\""+projectName + "\"" + $"与\"{hisProjectCompanyName}\"的{hisProjectProjectYear}年的\"{hisProjectProjectName}\"相似度为{combinedSim:P2}\r\n");
+                        break;
+                    }
+                }
 
                 //项目当年成果形式中如果包含了（2.新产品、新工艺等推广与示范活动或3.对已有产品、工艺等进行一般性改进）则进行提示
                 if (projectRDData.RDProjectCurrentResultsForm.StartsWith("2")) {
@@ -852,7 +868,7 @@ namespace SumRDTools
         //导出数据到Excel中
         private void exportSummaryDataIntoExcel(CompanyRDData summaryCompanyRDData, String summaryFilePath) {
             //导出Excel
-            FileStream summaryFs = new FileStream("EnterprisesRDTemplate.xlsx", FileMode.Open, FileAccess.Read);
+            FileStream summaryFs = new FileStream("./excel/EnterprisesRDTemplate.xlsx", FileMode.Open, FileAccess.Read);
             XSSFWorkbook summaryWorkbook = new XSSFWorkbook(summaryFs);
             ISheet summarySheet = summaryWorkbook.GetSheetAt(1);
             //填写数据到导出的Excel中
