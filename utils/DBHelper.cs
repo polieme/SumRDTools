@@ -13,7 +13,7 @@ namespace SumRDTools
     public static class DBHelper
     {
         // 数据库连接字符串（自动创建数据库文件）
-        private static string ConnectionString = "Data Source=./mydatabase.db;Version=3;";
+        private static string ConnectionString = "Data Source=./sumrdtools.db;Version=3;";
 
         /// <summary>
         /// 获取数据库连接

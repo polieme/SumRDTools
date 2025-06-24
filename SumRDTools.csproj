@@ -162,7 +162,7 @@
     <None Include="excel\EnterprisesRDTemplate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="mydatabase.db">
+    <None Include="sumrdtools.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
