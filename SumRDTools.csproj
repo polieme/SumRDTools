@@ -129,6 +129,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bo\CountyComboxBo.cs" />
     <Compile Include="CompanyRDData.cs" />
     <Compile Include="utils\DateUtils.cs" />
     <Compile Include="utils\DBHelper.cs" />

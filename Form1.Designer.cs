@@ -36,6 +36,7 @@
             this.logTextBox = new Sunny.UI.UITextBox();
             this.uiStyleManager = new Sunny.UI.UIStyleManager(this.components);
             this.errorLogRichTextBox = new Sunny.UI.UIRichTextBox();
+            this.countyComboBox = new Sunny.UI.UIComboBox();
             this.SuspendLayout();
             // 
             // folderPathText
@@ -48,7 +49,7 @@
             this.folderPathText.ButtonRectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(112)))), ((int)(((byte)(112)))));
             this.folderPathText.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.folderPathText.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.folderPathText.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.folderPathText.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.folderPathText.Location = new System.Drawing.Point(18, 57);
             this.folderPathText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.folderPathText.MinimumSize = new System.Drawing.Size(1, 16);
@@ -57,7 +58,7 @@
             this.folderPathText.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.folderPathText.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.folderPathText.ShowText = false;
-            this.folderPathText.Size = new System.Drawing.Size(930, 35);
+            this.folderPathText.Size = new System.Drawing.Size(834, 35);
             this.folderPathText.Style = Sunny.UI.UIStyle.Gray;
             this.folderPathText.TabIndex = 0;
             this.folderPathText.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
@@ -72,7 +73,7 @@
             this.chooseFolderBtn.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(112)))), ((int)(((byte)(112)))));
             this.chooseFolderBtn.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(112)))), ((int)(((byte)(112)))));
             this.chooseFolderBtn.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chooseFolderBtn.Location = new System.Drawing.Point(955, 57);
+            this.chooseFolderBtn.Location = new System.Drawing.Point(859, 57);
             this.chooseFolderBtn.MinimumSize = new System.Drawing.Size(1, 1);
             this.chooseFolderBtn.Name = "chooseFolderBtn";
             this.chooseFolderBtn.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
@@ -161,11 +162,36 @@
             this.errorLogRichTextBox.TabIndex = 3;
             this.errorLogRichTextBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // countyComboBox
+            // 
+            this.countyComboBox.DataSource = null;
+            this.countyComboBox.DisplayMember = "CountyName";
+            this.countyComboBox.FillColor = System.Drawing.Color.White;
+            this.countyComboBox.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.countyComboBox.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.countyComboBox.ItemHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
+            this.countyComboBox.ItemRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.countyComboBox.ItemSelectBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.countyComboBox.ItemSelectForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.countyComboBox.Location = new System.Drawing.Point(988, 57);
+            this.countyComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.countyComboBox.MinimumSize = new System.Drawing.Size(63, 0);
+            this.countyComboBox.Name = "countyComboBox";
+            this.countyComboBox.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
+            this.countyComboBox.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.countyComboBox.Size = new System.Drawing.Size(76, 35);
+            this.countyComboBox.Style = Sunny.UI.UIStyle.Gray;
+            this.countyComboBox.TabIndex = 4;
+            this.countyComboBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.countyComboBox.ValueMember = "CountyId";
+            this.countyComboBox.Watermark = "县市区";
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1179, 637);
             this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(163)))), ((int)(((byte)(163)))));
+            this.Controls.Add(this.countyComboBox);
             this.Controls.Add(this.errorLogRichTextBox);
             this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.summaryBtn);
@@ -191,6 +217,7 @@
         private Sunny.UI.UITextBox logTextBox;
         private Sunny.UI.UIStyleManager uiStyleManager;
         private Sunny.UI.UIRichTextBox errorLogRichTextBox;
+        private Sunny.UI.UIComboBox countyComboBox;
     }
 }
 

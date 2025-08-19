@@ -1,18 +1,18 @@
-﻿using Sunny.UI;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.Formula.Functions;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using SumRDTools.bo;
+using SumRDTools.utils;
+using Sunny.UI;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SQLite;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using System.Collections.Generic;
-using System.Drawing;
-using static NPOI.HSSF.Util.HSSFColor;
-using System.Data.SQLite;
-using System.Data;
-using static Org.BouncyCastle.Crypto.Digests.SkeinEngine;
-using SumRDTools.utils;
 
 namespace SumRDTools
 {
@@ -21,11 +21,15 @@ namespace SumRDTools
         //定义Excel处理和日志打印的委托
         public delegate void DealExcelAndPrintLogDelegate(DirectoryInfo directoryInfo);
         DealExcelAndPrintLogDelegate dealExcelAndPrintLogDelegate;
+        //各县市区列表，用作下拉框显示
+        List<String> countyIlist = new List<String> { "任城区", "兖州区", "嘉祥县", "太白湖", "微山县", "曲阜市", "梁山县", "汶上县", "泗水县", "经开区", "邹城市", "金乡县", "高新区", "鱼台县" };
         public Form1()
         {
             InitializeComponent();
             //初始化Excel处理及日志打印委托
             dealExcelAndPrintLogDelegate = new DealExcelAndPrintLogDelegate(dealExcelAndPrintLogFun);
+            //初始化选择县市区的下拉框
+            initCountyComboBox();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -35,6 +39,8 @@ namespace SumRDTools
             if (!String.IsNullOrEmpty(defaultOpenPath))
             {
                 this.folderPathText.Text = defaultOpenPath;
+                //根据选择路径自动选择县市区下拉框
+                byFolderPathAutoSetCountyCombox(defaultOpenPath);
             }
         }
 
@@ -48,6 +54,9 @@ namespace SumRDTools
             }
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK) { 
                 this.folderPathText.Text = folderBrowserDialog.SelectedPath;
+                //根据选择路径自动选择县市区下拉框
+                byFolderPathAutoSetCountyCombox(this.folderPathText.Text);
+
                 //如果路径不一致的时候，更新到配置文件
                 if (folderBrowserDialog.SelectedPath != defaultOpenPath) {
                     ConfigFileUtil.SetValue("DEFALUT_PARAM", "FILE_PATH", folderBrowserDialog.SelectedPath);
@@ -162,8 +171,12 @@ namespace SumRDTools
                     Get1072SheetData(companyRDData, RDAcitivitySheet);
 
                     //查询数据库获取下目前库中已有的项目，用于校验项目名称与往年项目名称的重合度
-                    string queryHistoryProjectInfoSql = "SELECT Company_Name,Project_Name,Project_Year FROM Company_History_ProjectName";
-                    DataTable historyProjectInfoDataTable = DBHelper.ExecuteQuery(queryHistoryProjectInfoSql);
+                    string queryHistoryProjectInfoSql = "SELECT Company_Name,Project_Name,Project_Year FROM Company_History_ProjectName WHERE County_Name = @CountyName";
+                    CountyComboxBo countyComboxBo = (CountyComboxBo)this.countyComboBox.SelectedItem;
+                    SQLiteParameter[] queryHistoryProjectParams = new SQLiteParameter[]{
+                         new SQLiteParameter("@CountyName", countyComboxBo.CountyId)
+                     };
+                    DataTable historyProjectInfoDataTable = DBHelper.ExecuteQuery(queryHistoryProjectInfoSql, queryHistoryProjectParams);
 
                     //逻辑判断
                     /**
@@ -223,7 +236,7 @@ namespace SumRDTools
 
         //获取107-1表中的数据并赋值到对象的列表中
         private void Get1071SheetData(CompanyRDData companyRDData, ISheet RDProjectSheet) {
-            Console.WriteLine("开始读取107-1数据");
+            //Console.WriteLine("开始读取107-1数据");
 
             /*  
             基本思路：1、从6行开始读取数据
@@ -573,22 +586,30 @@ namespace SumRDTools
                 }
 
                 //校验项目名称是否与往年的项目存在高重合度
-                for (int y = 0; y < historyProjectInfoDataTable.Rows.Count; y++)
-                {
-                    string hisProjectCompanyName = historyProjectInfoDataTable.Rows[y]["Company_Name"].ToString();
-                    string hisProjectProjectName = historyProjectInfoDataTable.Rows[y]["Project_Name"].ToString();
-                    string hisProjectProjectYear = historyProjectInfoDataTable.Rows[y]["Project_Year"].ToString();
+                /**
+                 * 思路：
+                 * 1.如果项目的开始时间是当年的话，则纳入重合度计算，因为跨年项目肯定会在往年的项目表中，查询重合度的话会出现100%，但又不应该是100%
+                 * */
+                String projectBeginDateStr = projectRDData.RDProjectBeginDate;
+                if (projectBeginDateStr.StartsWith(DateTime.Now.Year.ToString()) || this.countyComboBox.Text.Contains("曲阜")) {
+                    for (int y = 0; y < historyProjectInfoDataTable.Rows.Count; y++)
+                    {
+                        string hisProjectCompanyName = historyProjectInfoDataTable.Rows[y]["Company_Name"].ToString();
+                        string hisProjectProjectName = historyProjectInfoDataTable.Rows[y]["Project_Name"].ToString();
+                        string hisProjectProjectYear = historyProjectInfoDataTable.Rows[y]["Project_Year"].ToString();
 
-                    //计算综合相似度
-                    double combinedSim = ProjectNameSimilarityChecker.CalculateCombinedSimilarity(hisProjectProjectName, projectName);
-                    Console.WriteLine(combinedSim);
+                        //计算综合相似度
+                        double combinedSim = ProjectNameSimilarityChecker.CalculateCombinedSimilarity(hisProjectProjectName, projectName);
+                        //Console.WriteLine(combinedSim);
 
-                    if (combinedSim.CompareTo(0.5)>0) {
-                        //如果项目的相似度超过50%，移除项目并提示
-                        isTips = true;
-                        isRemoveProject = true;
-                        tipsText += ("\""+projectName + "\"" + $"与\"{hisProjectCompanyName}\"的{hisProjectProjectYear}年的\"{hisProjectProjectName}\"相似度为{combinedSim:P2}\r\n");
-                        break;
+                        if (combinedSim.CompareTo(0.8) > 0)
+                        {
+                            //如果项目的相似度超过80%，移除项目并提示
+                            isTips = true;
+                            isRemoveProject = true;
+                            tipsText += ("\"" + projectName + "\"" + $"与\"{hisProjectCompanyName}\"的{hisProjectProjectYear}年的\"{hisProjectProjectName}\"相似度为{combinedSim:P2}\r\n");
+                            break;
+                        }
                     }
                 }
 
@@ -646,45 +667,48 @@ namespace SumRDTools
                     tipsText += (projectName + "项目技术经济目标不能选择9.其他，该项目不计入研发统计数据；\r\n");
                 }
 
-                /*  //项目起始日期&项目完成日期
-                  DateTime ProjectBeginDate = DateUtils.formatDatetime(projectRDData.RDProjectBeginDate);
-                  DateTime ProjectEndDate = DateUtils.formatDatetime(projectRDData.RDProjectEndDate);
-                  //如果是项目早于2000年或者项目晚于2045年，则认为是解析日期的时候解析出错了
-                  if (ProjectBeginDate.Year < 2000 || ProjectBeginDate.Year > 2045 || ProjectEndDate.Year < 2000 || ProjectEndDate.Year > 2045)
-                  {
-                      isTips = true;
-                      isRemoveProject = true;
-                      tipsText += (projectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报，该项目不计入研发统计数据；\r\n");
-                  }
-                  else {
-                      //如果项目周期跨年
-                      if (ProjectBeginDate.Year != DateTime.Now.Year || ProjectEndDate.Year != DateTime.Now.Year)
-                      {
-                          //如果“跨年项目需要填写主要进展阶段”为空（跨年项目需要填写跨年项目需要填写主要进展阶段）
-                          if (string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
-                          {
-                              isTips = true;
-                              isRemoveProject = true;
-                              tipsText += (projectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段，该项目不计入研发统计数据；\r\n");
-                          }
-                          else {
-                              //如果不是选择1.研究阶段和2.小试阶段开头的都需要排除
-                              if (!(projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("1") || projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("2"))) {
-                                  isTips = true;
-                                  isRemoveProject = true;
-                                  tipsText += (projectName + "项目是跨年项目，跨年项目当年所处主要进展阶段选择了非“1.研究阶段和2.小试阶段”，该项目不计入研发统计数据；\r\n");
-                              }
-                          }
-                      }
+                /* //项目起始日期&项目完成日期
+                DateTime ProjectBeginDate = DateUtils.formatDatetime(projectRDData.RDProjectBeginDate);
+                DateTime ProjectEndDate = DateUtils.formatDatetime(projectRDData.RDProjectEndDate);
+              //如果是项目早于2000年或者项目晚于2045年，则认为是解析日期的时候解析出错了
+                if (ProjectBeginDate.Year < 2000 || ProjectBeginDate.Year > 2045 || ProjectEndDate.Year < 2000 || ProjectEndDate.Year > 2045)
+                {
+                    isTips = true;
+                    isRemoveProject = true;
+                    tipsText += (projectName + "项目的起始日期或项目的完成日期未按照6位格式（202312）填报，该项目不计入研发统计数据；\r\n");
+                }
+                else {
+                    //如果项目周期跨年
+                    if (ProjectBeginDate.Year != DateTime.Now.Year || ProjectEndDate.Year != DateTime.Now.Year)
+                    {
+                        //如果“跨年项目需要填写主要进展阶段”为空（跨年项目需要填写跨年项目需要填写主要进展阶段）
+                        if (string.IsNullOrEmpty(projectRDData.AcrossYearRDProjectCurrentStage))
+                        {
+                            isTips = true;
+                            isRemoveProject = true;
+                            tipsText += (projectName + "项目是跨年项目，但是未选择跨年项目当年所处主要进展阶段，该项目不计入研发统计数据；\r\n");
+                        }
+                        else {
+                            //如果不是选择1.研究阶段和2.小试阶段开头的都需要排除
+                            if (!(projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("1") || projectRDData.AcrossYearRDProjectCurrentStage.StartsWith("2"))) {
+                                isTips = true;
+                                isRemoveProject = true;
+                                tipsText += (projectName + "项目是跨年项目，跨年项目当年所处主要进展阶段选择了非“1.研究阶段和2.小试阶段”，该项目不计入研发统计数据；\r\n");
+                            }
+                        }
+                    }
 
-                      //项目周期要大约等于3个月
-                      if (ProjectEndDate.Month - ProjectBeginDate.Month + (ProjectEndDate.Year - ProjectBeginDate.Year) * 12 +1< 4)
-                      {
-                          isTips = true;
-                          //isRemoveProject = true;
-                          tipsText += (projectName + "项目的周期必须大于3个月；\r\n");
-                      }
-                  }*/
+                    //项目周期要大约等于3个月
+                    if (ProjectEndDate.Month - ProjectBeginDate.Month + (ProjectEndDate.Year - ProjectBeginDate.Year) * 12 +1< 4)
+                    {
+                        isTips = true;
+                        //isRemoveProject = true;
+                        tipsText += (projectName + "项目的周期必须大于3个月；\r\n");
+                    }
+                }*/
+
+
+
 
                 //如果107-1表中项目有不符合规则的，则从项目中删除，不纳入最后的研发费用合计
                 if (isRemoveProject)
@@ -699,7 +723,7 @@ namespace SumRDTools
                     companyRDData.RD1071ExpensesTotal += projectRDData.RDProjectExpenses;
                 }
             }
-            Console.WriteLine("研发人员全时当量："+companyRDData.RDProjectStaffWorkMonth);
+            //Console.WriteLine("研发人员全时当量："+companyRDData.RDProjectStaffWorkMonth);
 
             //人员费用支出/人月,低于<2200，不能高于5万（提示）
             if (companyRDData.RDProjectStaffWorkMonth == 0)
@@ -1011,6 +1035,29 @@ namespace SumRDTools
         public void dealExcelAndPrintLogThreadMethod(DirectoryInfo directoryInfo)
         {
             this.BeginInvoke(dealExcelAndPrintLogDelegate, directoryInfo);
+        }
+
+        //初始化选择县市区的下拉框
+        private void initCountyComboBox() {
+            IList<CountyComboxBo> countyComboxBosIlist = new List<CountyComboxBo>();
+            for (int i = 0; i < countyIlist.Count; i++) {
+                countyComboxBosIlist.Add(new CountyComboxBo()
+                {
+                    CountyId = countyIlist[i],
+                    CountyName = countyIlist[i]
+                });
+            }
+            this.countyComboBox.DataSource = countyComboxBosIlist;
+        }
+
+        //根据选择路径自动选择县市区下拉框
+        private void byFolderPathAutoSetCountyCombox(String folderPathText) {
+            foreach (String countryName in countyIlist)
+            {
+                if (folderPathText.Contains(countryName)) { 
+                    this.countyComboBox.Text = countryName;
+                }
+            }
         }
     }
 }
